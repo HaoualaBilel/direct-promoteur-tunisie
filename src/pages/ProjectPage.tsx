@@ -1,15 +1,49 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { MapPin, Calendar, Eye, Home, Building2, Umbrella, Check, ExternalLink } from 'lucide-react';
+import { 
+  MapPin, 
+  Calendar, 
+  Eye, 
+  Home, 
+  Building2, 
+  Umbrella, 
+  Check, 
+  ExternalLink,
+  Bed,
+  DoorClosed,
+  LayoutGrid,
+  FileText,
+  ArrowUp,
+  ArrowDown,
+  Info,
+  Phone,
+  Mail
+} from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Project, ProjectUnit, Professional, ProfessionalCategory } from '@/types/models';
 
-// Mock data for demonstration
-const projectsData = [
+// Professional categories data
+const professionalCategories: ProfessionalCategory[] = [
+  { id: '1', name: 'Bâtiment & Gros œuvre', icon: 'building', description: 'Entreprises de construction et de fondation' },
+  { id: '2', name: 'Second œuvre', icon: 'layoutGrid', description: 'Cloisons, plâtrerie, revêtements' },
+  { id: '3', name: 'Installations techniques', icon: 'info', description: 'Électricité, plomberie, chauffage' },
+  { id: '4', name: 'Menuiserie & fermetures', icon: 'doorClosed', description: 'Fenêtres, portes, menuiserie' },
+  { id: '5', name: 'Aménagement intérieur', icon: 'home', description: 'Cuisine, décoration, aménagement' },
+  { id: '6', name: 'Fermetures extérieures & sécurité', icon: 'doorClosed', description: 'Portes d\'entrée, surveillance' },
+  { id: '7', name: 'Extérieurs & communs', icon: 'layoutGrid', description: 'Jardinage, clôtures, piscine' },
+  { id: '8', name: 'Élévateurs & accessibilité', icon: 'arrowUp', description: 'Ascenseurs, accessibilité' },
+  { id: '9', name: 'Finitions & nettoyage', icon: 'check', description: 'Nettoyage, signalétique' },
+  { id: '10', name: 'Services administratifs', icon: 'fileText', description: 'Contrôle technique, études' },
+  { id: '11', name: 'Signalétique et branding', icon: 'info', description: 'Enseignes, logo, communication' }
+];
+
+// Enhanced mock data for demonstration
+const projectsData: Project[] = [
   {
     id: '1',
     title: 'Résidence Les Jardins de Carthage',
@@ -31,9 +65,111 @@ const projectsData = [
       'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800'
     ],
     units: [
-      { type: 'S+1', area: '75 m²', price: 'À partir de 250 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'S+2', area: '100 m²', price: 'À partir de 350 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'S+3', area: '130 m²', price: 'À partir de 450 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' }
+      { 
+        id: '1-1',
+        type: 'S+1', 
+        area: '75 m²', 
+        price: 'À partir de 250 000 DT', 
+        planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+        floor: 1,
+        rooms: 2,
+        bathrooms: 1,
+        orientation: 'Sud-Est',
+        balcony: true,
+        availability: 'Disponible',
+        variants: [
+          {
+            id: '1-1-1',
+            name: 'S+1 Type A',
+            area: '75 m²',
+            floor: 1,
+            price: '250 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud-Est',
+            features: ['Balcon', 'Vue sur jardin']
+          },
+          {
+            id: '1-1-2',
+            name: 'S+1 Type B',
+            area: '78 m²',
+            floor: 2,
+            price: '265 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Nord-Est',
+            features: ['Balcon', 'Vue sur piscine']
+          },
+          {
+            id: '1-1-3',
+            name: 'S+1 Type C',
+            area: '70 m²',
+            floor: 3,
+            price: '245 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud-Ouest',
+            features: ['Balcon', 'Cuisine américaine']
+          }
+        ]
+      },
+      { 
+        id: '1-2',
+        type: 'S+2', 
+        area: '100 m²', 
+        price: 'À partir de 350 000 DT', 
+        planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+        floor: 2,
+        rooms: 3,
+        bathrooms: 1,
+        orientation: 'Sud-Ouest',
+        balcony: true,
+        availability: 'Disponible',
+        variants: [
+          {
+            id: '1-2-1',
+            name: 'S+2 Type A',
+            area: '100 m²',
+            floor: 2,
+            price: '350 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud-Ouest',
+            features: ['Double balcon', 'Suite parentale']
+          },
+          {
+            id: '1-2-2',
+            name: 'S+2 Type B',
+            area: '105 m²',
+            floor: 4,
+            price: '375 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Nord-Ouest',
+            features: ['Terrasse', 'Dressing', 'Vue panoramique']
+          }
+        ]
+      },
+      { 
+        id: '1-3',
+        type: 'S+3', 
+        area: '130 m²', 
+        price: 'À partir de 450 000 DT', 
+        planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+        floor: 3,
+        rooms: 4,
+        bathrooms: 2,
+        orientation: 'Nord-Est',
+        balcony: true,
+        availability: 'Réservé',
+        variants: [
+          {
+            id: '1-3-1',
+            name: 'S+3 Type Luxe',
+            area: '135 m²',
+            floor: 5,
+            price: '495 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud',
+            features: ['Double terrasse', '2 salles de bain', 'Cuisine séparée']
+          }
+        ]
+      }
     ],
     propertySpecs: {
       type: 'Habitation',
@@ -47,7 +183,94 @@ const projectsData = [
       'Centre commercial à 500m', 'École à 1km', 'Clinique à 2km', 'Accès autoroute à 3km'
     ],
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    professionals: [
+      {
+        id: 'p1',
+        name: 'Entreprise Générale El Bouniène',
+        categoryId: '1',
+        categoryName: 'Bâtiment & Gros œuvre',
+        specialty: 'Entreprise de construction (gros œuvre)',
+        contact: {
+          phone: '+216 71 123 456',
+          email: 'contact@elbouniene.tn'
+        },
+        logo: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=300'
+      },
+      {
+        id: 'p2',
+        name: 'Fondations Solides SARL',
+        categoryId: '1',
+        categoryName: 'Bâtiment & Gros œuvre',
+        specialty: 'Entreprise de fondation profonde (pieux, radier…)',
+        contact: {
+          phone: '+216 71 222 333'
+        }
+      },
+      {
+        id: 'p3',
+        name: 'Plâtrerie Moderne',
+        categoryId: '2',
+        categoryName: 'Second œuvre',
+        specialty: 'Cloisons & Plâtrerie',
+        contact: {
+          phone: '+216 71 333 444',
+          email: 'info@platrerie-moderne.tn'
+        }
+      },
+      {
+        id: 'p4',
+        name: 'Carrelages & Céramiques du Sud',
+        categoryId: '2',
+        categoryName: 'Second œuvre',
+        specialty: 'Carrelage',
+        contact: {
+          phone: '+216 71 444 555'
+        }
+      },
+      {
+        id: 'p5',
+        name: 'Parquets El Menzeh',
+        categoryId: '2',
+        categoryName: 'Second œuvre',
+        specialty: 'Parquet / Stratifié',
+        contact: {
+          phone: '+216 71 555 666'
+        }
+      },
+      {
+        id: 'p6',
+        name: 'Élec Tunisie',
+        categoryId: '3',
+        categoryName: 'Installations techniques',
+        specialty: 'Électricité bâtiment (tableau, câblage, prises)',
+        contact: {
+          phone: '+216 71 666 777',
+          email: 'contact@electunisie.tn'
+        }
+      },
+      {
+        id: 'p7',
+        name: 'Smart Buildings',
+        categoryId: '3',
+        categoryName: 'Installations techniques',
+        specialty: 'Domotique (gestion lumière, volets, clim…)',
+        contact: {
+          phone: '+216 71 777 888',
+          website: 'www.smartbuildings.tn'
+        }
+      },
+      {
+        id: 'p8',
+        name: 'Alu Fenêtres',
+        categoryId: '4',
+        categoryName: 'Menuiserie & fermetures',
+        specialty: 'Menuiserie aluminium',
+        contact: {
+          phone: '+216 71 888 999'
+        }
+      }
+    ]
   },
   {
     id: '2',
@@ -70,9 +293,111 @@ const projectsData = [
       'https://images.unsplash.com/photo-1577415124269-fc1140a69e91?auto=format&fit=crop&w=800'
     ],
     units: [
-      { type: 'S+1', area: '60 m²', price: 'À partir de 200 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'S+2', area: '85 m²', price: 'À partir de 300 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'S+3', area: '110 m²', price: 'À partir de 400 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' }
+      { 
+        id: '2-1',
+        type: 'S+1', 
+        area: '60 m²', 
+        price: 'À partir de 200 000 DT', 
+        planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+        floor: 1,
+        rooms: 2,
+        bathrooms: 1,
+        orientation: 'Sud-Est',
+        balcony: true,
+        availability: 'Disponible',
+        variants: [
+          {
+            id: '2-1-1',
+            name: 'S+1 Type A',
+            area: '60 m²',
+            floor: 1,
+            price: '200 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud-Est',
+            features: ['Balcon', 'Vue sur jardin']
+          },
+          {
+            id: '2-1-2',
+            name: 'S+1 Type B',
+            area: '63 m²',
+            floor: 2,
+            price: '215 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Nord-Est',
+            features: ['Balcon', 'Vue sur piscine']
+          },
+          {
+            id: '2-1-3',
+            name: 'S+1 Type C',
+            area: '58 m²',
+            floor: 3,
+            price: '195 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud-Ouest',
+            features: ['Balcon', 'Cuisine américaine']
+          }
+        ]
+      },
+      { 
+        id: '2-2',
+        type: 'S+2', 
+        area: '85 m²', 
+        price: 'À partir de 300 000 DT', 
+        planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+        floor: 2,
+        rooms: 3,
+        bathrooms: 1,
+        orientation: 'Sud-Ouest',
+        balcony: true,
+        availability: 'Disponible',
+        variants: [
+          {
+            id: '2-2-1',
+            name: 'S+2 Type A',
+            area: '85 m²',
+            floor: 2,
+            price: '300 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud-Ouest',
+            features: ['Double balcon', 'Suite parentale']
+          },
+          {
+            id: '2-2-2',
+            name: 'S+2 Type B',
+            area: '90 m²',
+            floor: 4,
+            price: '325 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Nord-Ouest',
+            features: ['Terrasse', 'Dressing', 'Vue panoramique']
+          }
+        ]
+      },
+      { 
+        id: '2-3',
+        type: 'S+3', 
+        area: '110 m²', 
+        price: 'À partir de 400 000 DT', 
+        planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+        floor: 3,
+        rooms: 4,
+        bathrooms: 2,
+        orientation: 'Nord-Est',
+        balcony: true,
+        availability: 'Réservé',
+        variants: [
+          {
+            id: '2-3-1',
+            name: 'S+3 Type Luxe',
+            area: '115 m²',
+            floor: 5,
+            price: '445 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud',
+            features: ['Double terrasse', '2 salles de bain', 'Cuisine séparée']
+          }
+        ]
+      }
     ],
     propertySpecs: {
       type: 'Estivale',
@@ -86,7 +411,19 @@ const projectsData = [
       'Plage à 50m', 'Restaurants à 100m', 'Commerces à 200m', 'Golf à 5km'
     ],
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    professionals: [
+      {
+        id: 'p9',
+        name: 'Alu Fenêtres',
+        categoryId: '4',
+        categoryName: 'Menuiserie & fermetures',
+        specialty: 'Menuiserie aluminium',
+        contact: {
+          phone: '+216 71 888 999'
+        }
+      }
+    ]
   },
   {
     id: '3',
@@ -109,9 +446,111 @@ const projectsData = [
       'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800'
     ],
     units: [
-      { type: 'Bureau', area: '30 m²', price: 'À partir de 150 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'Plateau', area: '100 m²', price: 'À partir de 500 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'Salle de réunion', area: '20 m²', price: 'Sur demande', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' }
+      { 
+        id: '3-1',
+        type: 'Bureau', 
+        area: '30 m²', 
+        price: 'À partir de 150 000 DT', 
+        planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+        floor: 1,
+        rooms: 1,
+        bathrooms: 1,
+        orientation: 'Sud-Est',
+        balcony: false,
+        availability: 'Disponible',
+        variants: [
+          {
+            id: '3-1-1',
+            name: 'Bureau Type A',
+            area: '30 m²',
+            floor: 1,
+            price: '150 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud-Est',
+            features: ['Climatisation', 'Vue sur jardin']
+          },
+          {
+            id: '3-1-2',
+            name: 'Bureau Type B',
+            area: '33 m²',
+            floor: 2,
+            price: '165 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Nord-Est',
+            features: ['Climatisation', 'Vue sur piscine']
+          },
+          {
+            id: '3-1-3',
+            name: 'Bureau Type C',
+            area: '28 m²',
+            floor: 3,
+            price: '145 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud-Ouest',
+            features: ['Climatisation', 'Cuisine américaine']
+          }
+        ]
+      },
+      { 
+        id: '3-2',
+        type: 'Plateau', 
+        area: '100 m²', 
+        price: 'À partir de 500 000 DT', 
+        planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+        floor: 2,
+        rooms: 3,
+        bathrooms: 1,
+        orientation: 'Sud-Ouest',
+        balcony: true,
+        availability: 'Disponible',
+        variants: [
+          {
+            id: '3-2-1',
+            name: 'Plateau Type A',
+            area: '100 m²',
+            floor: 2,
+            price: '500 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud-Ouest',
+            features: ['Double balcon', 'Suite parentale']
+          },
+          {
+            id: '3-2-2',
+            name: 'Plateau Type B',
+            area: '105 m²',
+            floor: 4,
+            price: '525 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Nord-Ouest',
+            features: ['Terrasse', 'Dressing', 'Vue panoramique']
+          }
+        ]
+      },
+      { 
+        id: '3-3',
+        type: 'Salle de réunion', 
+        area: '20 m²', 
+        price: 'Sur demande', 
+        planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+        floor: 3,
+        rooms: 4,
+        bathrooms: 2,
+        orientation: 'Nord-Est',
+        balcony: true,
+        availability: 'Réservé',
+        variants: [
+          {
+            id: '3-3-1',
+            name: 'Salle de réunion Type Luxe',
+            area: '25 m²',
+            floor: 5,
+            price: 'Sur demande',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud',
+            features: ['Double terrasse', '2 salles de bain', 'Cuisine séparée']
+          }
+        ]
+      }
     ],
     propertySpecs: {
       type: 'Commercial',
@@ -125,7 +564,19 @@ const projectsData = [
       'Banques à 100m', 'Restaurants à 200m', 'Centre commercial à 500m', 'Accès autoroute à 1km'
     ],
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    professionals: [
+      {
+        id: 'p10',
+        name: 'Alu Fenêtres',
+        categoryId: '4',
+        categoryName: 'Menuiserie & fermetures',
+        specialty: 'Menuiserie aluminium',
+        contact: {
+          phone: '+216 71 888 999'
+        }
+      }
+    ]
   },
   {
     id: '4',
@@ -148,405 +599,25 @@ const projectsData = [
       'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800'
     ],
     units: [
-      { type: 'S+1', area: '55 m²', price: 'À partir de 180 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'S+2', area: '75 m²', price: 'À partir de 250 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'S+3', area: '95 m²', price: 'À partir de 320 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' }
-    ],
-    propertySpecs: {
-      type: 'Habitation',
-      elevators: 1,
-      basement: 'Non',
-      standing: 'Moyen standing',
-      constructionYear: '2020-Vendu',
-      status: 'Vendu'
-    },
-    nearbyFacilities: [
-      'Plage à 500m', 'Commerces à 200m', 'Restaurants à 300m', 'Centre ville à 2km'
-    ],
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
-  },
-  {
-    id: '5',
-    title: 'Parc Résidentiel El Ghazela',
-    promoter: 'Immobilière Carthage',
-    promoterId: '1',
-    location: 'Ariana, El Ghazela',
-    fullAddress: 'Avenue de l\'UMA, El Ghazela, Ariana, Tunisie',
-    handoverDate: '2026',
-    propertyType: 'habitation',
-    imageUrl: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800',
-    description: 'Un nouveau parc résidentiel à El Ghazela, offrant un cadre de vie moderne et agréable. Les appartements sont conçus pour répondre aux besoins des familles, avec des espaces de vie spacieux et lumineux. Profitez d\'un environnement calme et sécurisé, avec des espaces verts, une aire de jeux pour enfants et un parking souterrain.',
-    features: [
-      'Espaces verts', 'Aire de jeux pour enfants', 'Parking souterrain', 'Sécurité 24h/24',
-      'Ascenseur', 'Chauffage central', 'Climatisation'
-    ],
-    gallery: [
-      'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800',
-      'https://images.unsplash.com/photo-1577415124269-fc1140a69e91?auto=format&fit=crop&w=800',
-      'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800'
-    ],
-    units: [
-      { type: 'S+1', area: '65 m²', price: 'À partir de 220 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'S+2', area: '90 m²', price: 'À partir de 330 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'S+3', area: '120 m²', price: 'À partir de 440 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' }
-    ],
-    propertySpecs: {
-      type: 'Habitation',
-      elevators: 2,
-      basement: 'Oui',
-      standing: 'Haut standing',
-      constructionYear: '2024-2026',
-      status: 'En construction'
-    },
-    nearbyFacilities: [
-      'École à 500m', 'Commerces à 1km', 'Centre commercial à 2km', 'Accès autoroute à 3km'
-    ],
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
-  },
-  {
-    id: '6',
-    title: 'Tour Crystal',
-    promoter: 'Groupe Azur',
-    promoterId: '2',
-    location: 'Tunis, Les Berges du Lac',
-    fullAddress: 'Rue du Lac Victoria, Les Berges du Lac, Tunis, Tunisie',
-    handoverDate: '2025',
-    propertyType: 'mixte',
-    imageUrl: 'https://images.unsplash.com/photo-1577415124269-fc1140a69e91?auto=format&fit=crop&w=800',
-    description: 'Un projet mixte combinant des espaces résidentiels et commerciaux, situé dans le quartier prestigieux des Berges du Lac à Tunis. La Tour Crystal offre une vue panoramique sur le lac et les environs, avec des appartements de luxe, des bureaux modernes et des commerces de proximité. Profitez d\'un emplacement privilégié avec un accès facile aux commodités et aux transports.',
-    features: [
-      'Appartements de luxe', 'Bureaux modernes', 'Commerces de proximité', 'Piscine',
-      'Salle de sport', 'Parking souterrain', 'Sécurité 24h/24'
-    ],
-    gallery: [
-      'https://images.unsplash.com/photo-1577415124269-fc1140a69e91?auto=format&fit=crop&w=800',
-      'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800',
-      'https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=800'
-    ],
-    units: [
-      { type: 'Appartement', area: '80 m²', price: 'À partir de 400 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'Bureau', area: '50 m²', price: 'À partir de 250 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'Commerce', area: '30 m²', price: 'Sur demande', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' }
-    ],
-    propertySpecs: {
-      type: 'Mixte',
-      elevators: 6,
-      basement: 'Oui, 3 niveaux',
-      standing: 'Luxe',
-      constructionYear: '2023-2025',
-      status: 'En construction'
-    },
-    nearbyFacilities: [
-      'Commerces à 50m', 'Restaurants à 100m', 'Banques à 200m', 'Accès autoroute à 1km'
-    ],
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
-  },
-  {
-    id: '7',
-    title: 'Dunes Dorées',
-    promoter: 'Delta Business',
-    promoterId: '3',
-    location: 'Djerba, Zone Touristique',
-    fullAddress: 'Zone Touristique, Djerba, Medenine, Tunisie',
-    handoverDate: 'Immédiate',
-    propertyType: 'estivale',
-    imageUrl: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800',
-    description: 'Un complexe résidentiel de vacances situé dans la zone touristique de Djerba, offrant un accès direct à la plage et une vue imprenable sur la mer. Les appartements sont entièrement équipés et décorés avec goût, offrant un confort optimal pour des vacances inoubliables. Profitez d\'une piscine, d\'un restaurant, d\'un bar et de nombreuses activités de loisirs.',
-    features: [
-      'Accès direct à la plage', 'Piscine', 'Restaurant', 'Bar',
-      'Activités de loisirs', 'Climatisation', 'Balcon ou terrasse'
-    ],
-    gallery: [
-      'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800',
-      'https://images.unsplash.com/photo-1577415124269-fc1140a69e91?auto=format&fit=crop&w=800',
-      'https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=800'
-    ],
-    units: [
-      { type: 'Studio', area: '40 m²', price: 'À partir de 150 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'Appartement', area: '60 m²', price: 'À partir de 220 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'Suite', area: '80 m²', price: 'À partir de 300 000 DT', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' }
-    ],
-    propertySpecs: {
-      type: 'Estivale',
-      elevators: 1,
-      basement: 'Non',
-      standing: 'Moyen standing',
-      constructionYear: '2022-Immédiate',
-      status: 'Livré'
-    },
-    nearbyFacilities: [
-      'Plage à 50m', 'Restaurants à 100m', 'Commerces à 200m', 'Casino à 500m'
-    ],
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
-  },
-  {
-    id: '8',
-    title: 'Centre Commercial Médina',
-    promoter: 'Groupe Immobilier Méditerranée',
-    promoterId: '4',
-    location: 'Sousse, Centre Ville',
-    fullAddress: 'Avenue Habib Bourguiba, Sousse, Tunisie',
-    handoverDate: '2025',
-    propertyType: 'commercial',
-    imageUrl: 'https://images.unsplash.com/photo-1535981767287-35259dbf7d0e?auto=format&fit=crop&w=800',
-    description: 'Un centre commercial moderne et dynamique situé au cœur de Sousse, offrant une grande variété de boutiques, de restaurants et de services. Le Centre Commercial Médina est un lieu de shopping et de divertissement incontournable, avec un parking spacieux, une sécurité 24h/24 et une ambiance conviviale.',
-    features: [
-      'Boutiques de mode', 'Restaurants', 'Cafés', 'Supermarché',
-      'Parking', 'Sécurité 24h/24', 'Aire de jeux pour enfants'
-    ],
-    gallery: [
-      'https://images.unsplash.com/photo-1535981767287-35259dbf7d0e?auto=format&fit=crop&w=800',
-      'https://images.unsplash.com/photo-1577415124269-fc1140a69e91?auto=format&fit=crop&w=800',
-      'https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=800'
-    ],
-    units: [
-      { type: 'Boutique', area: '40 m²', price: 'Sur demande', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'Restaurant', area: '80 m²', price: 'Sur demande', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' },
-      { type: 'Kiosque', area: '10 m²', price: 'Sur demande', planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800' }
-    ],
-    propertySpecs: {
-      type: 'Commercial',
-      elevators: 4,
-      basement: 'Oui',
-      standing: 'Moderne',
-      constructionYear: '2024-2025',
-      status: 'En construction'
-    },
-    nearbyFacilities: [
-      'Banques à 50m', 'Hôtels à 100m', 'Transports en commun à 200m', 'Plage à 500m'
-    ],
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
-  }
-];
-
-const ProjectPage = () => {
-  const { id } = useParams<{ id: string }>();
-  
-  // Find the project with the matching ID
-  const project = projectsData.find(p => p.id === id);
-  
-  if (!project) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-grow container-custom py-12">
-          <h1 className="text-2xl font-bold text-mineral">Projet non trouvé</h1>
-          <p className="mt-4">Le projet que vous recherchez n'existe pas ou a été supprimé.</p>
-          <Button asChild className="mt-6">
-            <Link to="/projets">Voir tous les projets</Link>
-          </Button>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-  
-  return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      
-      <main className="flex-grow">
-        {/* Hero Banner */}
-        <div className="bg-mineral/5 py-8">
-          <div className="container-custom">
-            <div className="flex flex-col md:flex-row justify-between gap-6">
-              <div>
-                <h1 className="text-3xl font-bold text-mineral">{project.title}</h1>
-                
-                <div className="flex flex-wrap gap-2 mt-3">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                    {project.propertyType === 'habitation' ? 'Habitation' : 
-                    project.propertyType === 'commercial' ? 'Commercial' : 
-                    project.propertyType === 'estivale' ? 'Estivale' : 'Mixte'}
-                  </span>
-                  
-                  <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                    project.handoverDate === 'Immédiate' ? 'bg-green-100 text-green-800' :
-                    project.handoverDate === 'Vendu' ? 'bg-red-100 text-red-800' :
-                    project.handoverDate.includes('2025') ? 'bg-amber-100 text-amber-800' :
-                    'bg-blue-100 text-blue-800'
-                  }`}>
-                    {project.handoverDate === 'Immédiate' ? 'Clés immédiate' :
-                     project.handoverDate === 'Vendu' ? 'Vendu' : 
-                     `Clés ${project.handoverDate}`}
-                  </span>
-                </div>
-                
-                <div className="flex items-center mt-4 text-sm text-gray-600">
-                  <MapPin size={16} className="mr-1 text-mineral" />
-                  <span>{project.location}</span>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <Link to={`/promoteurs/${project.promoterId}`} className="flex items-center">
-                  <div className="text-right">
-                    <p className="text-sm text-gray-600">Promoteur</p>
-                    <p className="font-medium text-mineral hover:text-sage transition-colors">{project.promoter}</p>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="container-custom py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main content */}
-            <div className="lg:col-span-2">
-              {/* Gallery */}
-              <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-8">
-                {project.gallery && project.gallery.length > 0 && (
-                  <div className="relative aspect-[16/9] overflow-hidden">
-                    <img 
-                      src={project.gallery[0]} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover" 
-                    />
-                  </div>
-                )}
-              </div>
-              
-              {/* Description */}
-              <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-                <h2 className="text-xl font-bold text-mineral mb-4">Description</h2>
-                <p className="text-gray-700">{project.description}</p>
-              </div>
-              
-              {/* Features */}
-              <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-                <h2 className="text-xl font-bold text-mineral mb-4">Caractéristiques</h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {project.features.map((feature, index) => (
-                    <div key={index} className="flex items-start">
-                      <Check size={18} className="text-sage mr-2 mt-0.5 flex-shrink-0" />
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Units */}
-              <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-                <h2 className="text-xl font-bold text-mineral mb-4">Unités disponibles</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {project.units.map((unit, index) => (
-                    <Card key={index}>
-                      <CardContent className="p-4">
-                        <div className="text-center mb-2">
-                          <h3 className="font-bold text-lg">{unit.type}</h3>
-                          <p className="text-sm text-gray-600">{unit.area}</p>
-                        </div>
-                        <div className="aspect-[4/3] relative overflow-hidden rounded-md mb-2">
-                          <img 
-                            src={unit.planImage} 
-                            alt={`Plan ${unit.type}`} 
-                            className="w-full h-full object-cover" 
-                          />
-                        </div>
-                        <p className="text-center font-medium text-mineral">{unit.price}</p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            </div>
-            
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
-              {/* Property Specs */}
-              <Card className="mb-6">
-                <CardContent className="p-6">
-                  <h2 className="text-xl font-bold text-mineral mb-4">Spécifications</h2>
-                  
-                  <div className="space-y-4">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Type de bien</span>
-                      <span className="font-medium">{project.propertySpecs.type}</span>
-                    </div>
-                    
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Ascenseurs</span>
-                      <span className="font-medium">{project.propertySpecs.elevators}</span>
-                    </div>
-                    
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Sous-sol</span>
-                      <span className="font-medium">{project.propertySpecs.basement}</span>
-                    </div>
-                    
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Standing</span>
-                      <span className="font-medium">{project.propertySpecs.standing}</span>
-                    </div>
-                    
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Construction</span>
-                      <span className="font-medium">{project.propertySpecs.constructionYear}</span>
-                    </div>
-                    
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Statut</span>
-                      <span className="font-medium">{project.propertySpecs.status}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              {/* Address */}
-              <Card className="mb-6">
-                <CardContent className="p-6">
-                  <h2 className="text-xl font-bold text-mineral mb-4">Adresse</h2>
-                  
-                  <div className="flex items-start mb-4">
-                    <MapPin size={18} className="text-mineral mr-2 mt-1 flex-shrink-0" />
-                    <span>{project.fullAddress}</span>
-                  </div>
-                  
-                  {/* Simple map placeholder - in a real app, integrate Google Maps or similar */}
-                  <div className="bg-gray-200 aspect-[16/9] rounded-md flex items-center justify-center">
-                    <span className="text-gray-500 text-sm">Carte interactive</span>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              {/* Nearby Facilities */}
-              <Card className="mb-6">
-                <CardContent className="p-6">
-                  <h2 className="text-xl font-bold text-mineral mb-4">À proximité</h2>
-                  
-                  <ul className="space-y-2">
-                    {project.nearbyFacilities.map((facility, index) => (
-                      <li key={index} className="flex items-start">
-                        <Check size={18} className="text-sage mr-2 mt-0.5 flex-shrink-0" />
-                        <span>{facility}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-              
-              {/* Contact Button */}
-              <Button className="w-full bg-mineral text-white hover:bg-mineral/90 mb-4">
-                Contacter le promoteur
-              </Button>
-              
-              <Button variant="outline" className="w-full border-mineral text-mineral hover:bg-mineral/5">
-                Demander un rendez-vous
-              </Button>
-            </div>
-          </div>
-        </div>
-      </main>
-      
-      <Footer />
-    </div>
-  );
-};
-
-export default ProjectPage;
+      { 
+        id: '4-1',
+        type: 'S+1', 
+        area: '55 m²', 
+        price: 'À partir de 180 000 DT', 
+        planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+        floor: 1,
+        rooms: 2,
+        bathrooms: 1,
+        orientation: 'Sud-Est',
+        balcony: true,
+        availability: 'Disponible',
+        variants: [
+          {
+            id: '4-1-1',
+            name: 'S+1 Type A',
+            area: '55 m²',
+            floor: 1,
+            price: '180 000 DT',
+            planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
+            orientation: 'Sud-Est',
+            features:
