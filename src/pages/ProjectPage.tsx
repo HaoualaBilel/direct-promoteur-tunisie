@@ -620,4 +620,501 @@ const projectsData: Project[] = [
             price: '180 000 DT',
             planImage: 'https://images.unsplash.com/photo-1626178793926-22b28830aa30?auto=format&fit=crop&w=800',
             orientation: 'Sud-Est',
-            features:
+            features: ['Balcon', 'Vue sur jardin']
+          }
+        ]
+      }
+    ],
+    propertySpecs: {
+      type: 'Habitation',
+      elevators: 1,
+      basement: 'Non',
+      standing: 'Moyen standing',
+      constructionYear: '2020-Vendu',
+      status: 'Vendu'
+    },
+    nearbyFacilities: [
+      'Plage à 500m', 'Commerces à 200m', 'Restaurants à 300m', 'Centre ville à 2km'
+    ],
+    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    virtualTourUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+  }
+];
+
+const ProjectPage = () => {
+  const { id } = useParams<{ id: string }>();
+  
+  // Find the project with the matching ID
+  const project = projectsData.find(p => p.id === id);
+  
+  if (!project) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-grow container-custom py-12">
+          <h1 className="text-2xl font-bold text-mineral">Projet non trouvé</h1>
+          <p className="mt-4">Le projet que vous recherchez n'existe pas ou a été supprimé.</p>
+          <Button asChild className="mt-6">
+            <Link to="/projets">Voir tous les projets</Link>
+          </Button>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+  
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      
+      <main className="flex-grow">
+        {/* Hero Banner */}
+        <div className="bg-mineral/5 py-8">
+          <div className="container-custom">
+            <div className="flex flex-col md:flex-row justify-between gap-6">
+              <div>
+                <h1 className="text-3xl font-bold text-mineral">{project.title}</h1>
+                
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    {project.propertyType === 'habitation' ? 'Habitation' : 
+                    project.propertyType === 'commercial' ? 'Commercial' : 
+                    project.propertyType === 'estivale' ? 'Estivale' : 'Mixte'}
+                  </span>
+                  
+                  <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                    project.handoverDate === 'Immédiate' ? 'bg-green-100 text-green-800' :
+                    project.handoverDate === 'Vendu' ? 'bg-red-100 text-red-800' :
+                    project.handoverDate.includes('2025') ? 'bg-amber-100 text-amber-800' :
+                    'bg-blue-100 text-blue-800'
+                  }`}>
+                    {project.handoverDate === 'Immédiate' ? 'Clés immédiate' :
+                     project.handoverDate === 'Vendu' ? 'Vendu' : 
+                     `Clés ${project.handoverDate}`}
+                  </span>
+                </div>
+                
+                <div className="flex items-center mt-4 text-sm text-gray-600">
+                  <MapPin size={16} className="mr-1 text-mineral" />
+                  <span>{project.location}</span>
+                </div>
+              </div>
+              
+              <div className="flex items-center">
+                <Link to={`/promoteurs/${project.promoterId}`} className="flex items-center">
+                  <div className="text-right">
+                    <p className="text-sm text-gray-600">Promoteur</p>
+                    <p className="font-medium text-mineral hover:text-sage transition-colors">{project.promoter}</p>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="container-custom py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main content */}
+            <div className="lg:col-span-2">
+              {/* Gallery */}
+              <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-8">
+                {project.gallery && project.gallery.length > 0 && (
+                  <div className="relative aspect-[16/9] overflow-hidden">
+                    <img 
+                      src={project.gallery[0]} 
+                      alt={project.title} 
+                      className="w-full h-full object-cover" 
+                    />
+                  </div>
+                )}
+                
+                {project.gallery && project.gallery.length > 1 && (
+                  <div className="grid grid-cols-4 gap-2 p-2">
+                    {project.gallery.slice(1, 5).map((img, index) => (
+                      <div key={index} className="aspect-[4/3] overflow-hidden rounded-md">
+                        <img 
+                          src={img} 
+                          alt={`${project.title} - image ${index + 2}`} 
+                          className="w-full h-full object-cover hover:scale-110 transition-transform duration-300" 
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              
+              {/* Description */}
+              <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+                <h2 className="text-xl font-semibold text-mineral mb-4">Description</h2>
+                <p className="text-gray-700">{project.description}</p>
+                
+                {/* Property specs */}
+                <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Type</p>
+                    <p className="font-medium">{project.propertySpecs.type}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm text-gray-500">Ascenseurs</p>
+                    <p className="font-medium">{project.propertySpecs.elevators}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm text-gray-500">Sous-sol</p>
+                    <p className="font-medium">{project.propertySpecs.basement}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm text-gray-500">Standing</p>
+                    <p className="font-medium">{project.propertySpecs.standing}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm text-gray-500">Construction</p>
+                    <p className="font-medium">{project.propertySpecs.constructionYear}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm text-gray-500">Statut</p>
+                    <p className="font-medium">{project.propertySpecs.status}</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Units */}
+              <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+                <h2 className="text-xl font-semibold text-mineral mb-6">Biens disponibles</h2>
+                
+                <Tabs defaultValue="all" className="w-full">
+                  <TabsList className="grid w-full grid-cols-4">
+                    <TabsTrigger value="all">Tous</TabsTrigger>
+                    <TabsTrigger value="available">Disponibles</TabsTrigger>
+                    <TabsTrigger value="reserved">Réservés</TabsTrigger>
+                    <TabsTrigger value="sold">Vendus</TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="all" className="pt-4">
+                    <div className="space-y-6">
+                      {project.units.map((unit) => (
+                        <Card key={unit.id} className="overflow-hidden">
+                          <div className="flex flex-col md:flex-row">
+                            <div className="w-full md:w-1/4 bg-gray-100">
+                              <img 
+                                src={unit.planImage} 
+                                alt={`Plan ${unit.type}`} 
+                                className="w-full h-full object-cover" 
+                              />
+                            </div>
+                            
+                            <CardContent className="flex-1 p-4 md:p-6">
+                              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                                <div>
+                                  <h3 className="font-semibold text-lg text-mineral">{unit.type}</h3>
+                                  <p className="text-gray-600 mb-2">{unit.area} | {unit.price}</p>
+                                  
+                                  <div className="flex flex-wrap gap-2 mt-2">
+                                    {unit.floor && (
+                                      <Badge variant="outline" className="flex items-center gap-1">
+                                        <Building2 size={12} />
+                                        Étage {unit.floor}
+                                      </Badge>
+                                    )}
+                                    
+                                    {unit.rooms && (
+                                      <Badge variant="outline" className="flex items-center gap-1">
+                                        <Bed size={12} />
+                                        {unit.rooms} pièce{unit.rooms > 1 ? 's' : ''}
+                                      </Badge>
+                                    )}
+                                    
+                                    {unit.bathrooms && (
+                                      <Badge variant="outline" className="flex items-center gap-1">
+                                        <Umbrella size={12} />
+                                        {unit.bathrooms} SDB
+                                      </Badge>
+                                    )}
+                                    
+                                    {unit.orientation && (
+                                      <Badge variant="outline" className="flex items-center gap-1">
+                                        <MapPin size={12} />
+                                        {unit.orientation}
+                                      </Badge>
+                                    )}
+                                  </div>
+                                </div>
+                                
+                                <div className="text-right">
+                                  {unit.availability && (
+                                    <Badge className={`${
+                                      unit.availability === 'Disponible' ? 'bg-green-100 text-green-800 hover:bg-green-200' :
+                                      unit.availability === 'Réservé' ? 'bg-amber-100 text-amber-800 hover:bg-amber-200' :
+                                      'bg-red-100 text-red-800 hover:bg-red-200'
+                                    }`}>
+                                      {unit.availability}
+                                    </Badge>
+                                  )}
+                                  
+                                  {unit.variants && unit.variants.length > 0 && (
+                                    <p className="text-sm text-mineral mt-2">
+                                      {unit.variants.length} variante{unit.variants.length > 1 ? 's' : ''} disponible{unit.variants.length > 1 ? 's' : ''}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                              
+                              {/* Unit variants */}
+                              {unit.variants && unit.variants.length > 0 && (
+                                <div className="mt-4 border-t pt-4">
+                                  <p className="text-sm font-medium mb-2">Variantes disponibles</p>
+                                  
+                                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    {unit.variants.map((variant) => (
+                                      <div key={variant.id} className="border rounded-md p-3">
+                                        <h4 className="font-medium text-mineral">{variant.name}</h4>
+                                        <p className="text-sm text-gray-600">{variant.area} | Étage {variant.floor}</p>
+                                        <p className="text-sm font-medium mt-1">{variant.price}</p>
+                                        
+                                        {variant.features && (
+                                          <div className="mt-2 flex flex-wrap gap-1">
+                                            {variant.features.map((feature, index) => (
+                                              <Badge key={index} variant="secondary" className="text-xs">
+                                                {feature}
+                                              </Badge>
+                                            ))}
+                                          </div>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                              
+                              <div className="mt-4 flex justify-end">
+                                <Button variant="outline" size="sm" className="text-mineral border-mineral hover:bg-mineral/5">
+                                  Plus de détails
+                                </Button>
+                              </div>
+                            </CardContent>
+                          </div>
+                        </Card>
+                      ))}
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="available" className="pt-4">
+                    <div className="space-y-6">
+                      {project.units.filter(unit => unit.availability === 'Disponible').map((unit) => (
+                        <Card key={unit.id}>
+                          <CardContent className="p-4">
+                            <h3>{unit.type}</h3>
+                          </CardContent>
+                        </Card>
+                      ))}
+                      
+                      {project.units.filter(unit => unit.availability === 'Disponible').length === 0 && (
+                        <p className="text-center text-gray-500 py-8">Aucun bien disponible pour ce projet.</p>
+                      )}
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="reserved" className="pt-4">
+                    {/* ... keep existing code (similar to "available" tab but for reserved units) */}
+                  </TabsContent>
+                  
+                  <TabsContent value="sold" className="pt-4">
+                    {/* ... keep existing code (similar to "available" tab but for sold units) */}
+                  </TabsContent>
+                </Tabs>
+              </div>
+              
+              {/* Features */}
+              <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+                <h2 className="text-xl font-semibold text-mineral mb-4">Prestations</h2>
+                
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {project.features.map((feature, index) => (
+                    <div key={index} className="flex items-start">
+                      <Check size={16} className="text-sage mr-2 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Nearby facilities */}
+              <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+                <h2 className="text-xl font-semibold text-mineral mb-4">À proximité</h2>
+                
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  {project.nearbyFacilities.map((facility, index) => (
+                    <div key={index} className="flex items-start">
+                      <Check size={16} className="text-sage mr-2 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm">{facility}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Professionals */}
+              {project.professionals && project.professionals.length > 0 && (
+                <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+                  <h2 className="text-xl font-semibold text-mineral mb-6">Professionnels du projet</h2>
+                  
+                  <Tabs defaultValue={professionalCategories[0].id} className="w-full">
+                    <TabsList className="grid w-full grid-cols-3 h-auto">
+                      {professionalCategories
+                        .filter(cat => project.professionals?.some(pro => pro.categoryId === cat.id))
+                        .map(category => (
+                          <TabsTrigger key={category.id} value={category.id} className="text-xs py-2 px-1">
+                            {category.name}
+                          </TabsTrigger>
+                      ))}
+                    </TabsList>
+                    
+                    {professionalCategories
+                      .filter(cat => project.professionals?.some(pro => pro.categoryId === cat.id))
+                      .map(category => (
+                        <TabsContent key={category.id} value={category.id} className="pt-4">
+                          <div className="space-y-4">
+                            {project.professionals
+                              ?.filter(pro => pro.categoryId === category.id)
+                              .map(professional => (
+                                <Card key={professional.id}>
+                                  <CardContent className="p-4 flex flex-col sm:flex-row gap-4 items-start">
+                                    {professional.logo ? (
+                                      <div className="w-16 h-16 shrink-0">
+                                        <img 
+                                          src={professional.logo} 
+                                          alt={professional.name}
+                                          className="w-full h-full object-contain" 
+                                        />
+                                      </div>
+                                    ) : (
+                                      <div className="w-16 h-16 bg-gray-100 flex items-center justify-center shrink-0 rounded-md">
+                                        <Building2 size={24} className="text-gray-400" />
+                                      </div>
+                                    )}
+                                    
+                                    <div className="flex-1">
+                                      <h3 className="font-semibold text-mineral">{professional.name}</h3>
+                                      <p className="text-sm text-gray-600">{professional.specialty}</p>
+                                      
+                                      {professional.contact && (
+                                        <div className="mt-2 space-y-1">
+                                          {professional.contact.phone && (
+                                            <div className="flex items-center text-sm">
+                                              <Phone size={14} className="mr-2 text-mineral" />
+                                              <a href={`tel:${professional.contact.phone}`} className="hover:text-sage transition-colors">
+                                                {professional.contact.phone}
+                                              </a>
+                                            </div>
+                                          )}
+                                          
+                                          {professional.contact.email && (
+                                            <div className="flex items-center text-sm">
+                                              <Mail size={14} className="mr-2 text-mineral" />
+                                              <a href={`mailto:${professional.contact.email}`} className="hover:text-sage transition-colors">
+                                                {professional.contact.email}
+                                              </a>
+                                            </div>
+                                          )}
+                                          
+                                          {professional.contact.website && (
+                                            <div className="flex items-center text-sm">
+                                              <ExternalLink size={14} className="mr-2 text-mineral" />
+                                              <a 
+                                                href={professional.contact.website.startsWith('http') ? professional.contact.website : `https://${professional.contact.website}`} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="hover:text-sage transition-colors"
+                                              >
+                                                {professional.contact.website}
+                                              </a>
+                                            </div>
+                                          )}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                            ))}
+                          </div>
+                        </TabsContent>
+                    ))}
+                  </Tabs>
+                </div>
+              )}
+            </div>
+            
+            {/* Sidebar */}
+            <div className="lg:col-span-1 space-y-8">
+              {/* Location */}
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-xl font-semibold text-mineral mb-4">Emplacement</h2>
+                
+                <div className="aspect-[4/3] bg-gray-100 mb-4 rounded overflow-hidden">
+                  {/* Placeholder for map */}
+                  <div className="w-full h-full flex items-center justify-center">
+                    <MapPin size={32} className="text-gray-400" />
+                  </div>
+                </div>
+                
+                <p className="text-sm mb-4">{project.fullAddress}</p>
+                
+                <Button className="w-full">Voir sur la carte</Button>
+              </div>
+              
+              {/* Contact */}
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-xl font-semibold text-mineral mb-4">Contacter le promoteur</h2>
+                
+                <div className="flex items-center mb-6">
+                  <div className="bg-white border rounded-lg p-2 w-12 h-12 flex items-center justify-center mr-4">
+                    <Building2 size={24} className="text-mineral" />
+                  </div>
+                  <div>
+                    <p className="font-medium">{project.promoter}</p>
+                    <Link to={`/promoteurs/${project.promoterId}`} className="text-sm text-mineral hover:text-sage transition-colors">
+                      Voir le profil
+                    </Link>
+                  </div>
+                </div>
+                
+                <Button className="w-full mb-2">Contacter</Button>
+                <Button variant="outline" className="w-full">Demander une brochure</Button>
+              </div>
+              
+              {/* Media */}
+              {(project.videoUrl || project.virtualTourUrl) && (
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <h2 className="text-xl font-semibold text-mineral mb-4">Médias</h2>
+                  
+                  <div className="space-y-4">
+                    {project.videoUrl && (
+                      <Button variant="outline" className="w-full flex items-center justify-center gap-2">
+                        <Eye size={18} />
+                        Voir la vidéo
+                      </Button>
+                    )}
+                    
+                    {project.virtualTourUrl && (
+                      <Button variant="outline" className="w-full flex items-center justify-center gap-2">
+                        <Eye size={18} />
+                        Visite virtuelle
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+};
+
+export default ProjectPage;
