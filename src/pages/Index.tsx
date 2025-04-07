@@ -118,7 +118,7 @@ const newsData = [
   {
     id: '3',
     title: 'Journée portes ouvertes : Résidence Les Oliviers',
-    excerpt: 'Venez découvrir nos nouveaux appartements et bénéficiez d'offres exclusives ce weekend.',
+    excerpt: "Venez découvrir nos nouveaux appartements et bénéficiez d'offres exclusives ce weekend.",
     date: '2023-03-10',
     imageUrl: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=800',
     category: 'Evenement',
@@ -127,7 +127,7 @@ const newsData = [
   {
     id: '4',
     title: 'Partenariat avec la Banque Nationale pour des offres de financement exclusives',
-    excerpt: 'Des conditions préférentielles pour l'acquisition d'un bien immobilier chez nos promoteurs partenaires.',
+    excerpt: "Des conditions préférentielles pour l'acquisition d'un bien immobilier chez nos promoteurs partenaires.",
     date: '2023-03-05',
     imageUrl: 'https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=800',
     category: 'Partenaire',
