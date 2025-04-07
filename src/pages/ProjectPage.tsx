@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MapPin, Calendar, Eye, Home, Building2, Umbrella, Check, ExternalLink } from 'lucide-react';
@@ -409,3 +410,143 @@ const ProjectPage = () => {
                     />
                   </div>
                 )}
+              </div>
+              
+              {/* Description */}
+              <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+                <h2 className="text-xl font-bold text-mineral mb-4">Description</h2>
+                <p className="text-gray-700">{project.description}</p>
+              </div>
+              
+              {/* Features */}
+              <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+                <h2 className="text-xl font-bold text-mineral mb-4">Caractéristiques</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {project.features.map((feature, index) => (
+                    <div key={index} className="flex items-start">
+                      <Check size={18} className="text-sage mr-2 mt-0.5 flex-shrink-0" />
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Units */}
+              <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+                <h2 className="text-xl font-bold text-mineral mb-4">Unités disponibles</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {project.units.map((unit, index) => (
+                    <Card key={index}>
+                      <CardContent className="p-4">
+                        <div className="text-center mb-2">
+                          <h3 className="font-bold text-lg">{unit.type}</h3>
+                          <p className="text-sm text-gray-600">{unit.area}</p>
+                        </div>
+                        <div className="aspect-[4/3] relative overflow-hidden rounded-md mb-2">
+                          <img 
+                            src={unit.planImage} 
+                            alt={`Plan ${unit.type}`} 
+                            className="w-full h-full object-cover" 
+                          />
+                        </div>
+                        <p className="text-center font-medium text-mineral">{unit.price}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* Sidebar */}
+            <div className="lg:col-span-1">
+              {/* Property Specs */}
+              <Card className="mb-6">
+                <CardContent className="p-6">
+                  <h2 className="text-xl font-bold text-mineral mb-4">Spécifications</h2>
+                  
+                  <div className="space-y-4">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Type de bien</span>
+                      <span className="font-medium">{project.propertySpecs.type}</span>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Ascenseurs</span>
+                      <span className="font-medium">{project.propertySpecs.elevators}</span>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Sous-sol</span>
+                      <span className="font-medium">{project.propertySpecs.basement}</span>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Standing</span>
+                      <span className="font-medium">{project.propertySpecs.standing}</span>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Construction</span>
+                      <span className="font-medium">{project.propertySpecs.constructionYear}</span>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Statut</span>
+                      <span className="font-medium">{project.propertySpecs.status}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              {/* Address */}
+              <Card className="mb-6">
+                <CardContent className="p-6">
+                  <h2 className="text-xl font-bold text-mineral mb-4">Adresse</h2>
+                  
+                  <div className="flex items-start mb-4">
+                    <MapPin size={18} className="text-mineral mr-2 mt-1 flex-shrink-0" />
+                    <span>{project.fullAddress}</span>
+                  </div>
+                  
+                  {/* Simple map placeholder - in a real app, integrate Google Maps or similar */}
+                  <div className="bg-gray-200 aspect-[16/9] rounded-md flex items-center justify-center">
+                    <span className="text-gray-500 text-sm">Carte interactive</span>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              {/* Nearby Facilities */}
+              <Card className="mb-6">
+                <CardContent className="p-6">
+                  <h2 className="text-xl font-bold text-mineral mb-4">À proximité</h2>
+                  
+                  <ul className="space-y-2">
+                    {project.nearbyFacilities.map((facility, index) => (
+                      <li key={index} className="flex items-start">
+                        <Check size={18} className="text-sage mr-2 mt-0.5 flex-shrink-0" />
+                        <span>{facility}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+              
+              {/* Contact Button */}
+              <Button className="w-full bg-mineral text-white hover:bg-mineral/90 mb-4">
+                Contacter le promoteur
+              </Button>
+              
+              <Button variant="outline" className="w-full border-mineral text-mineral hover:bg-mineral/5">
+                Demander un rendez-vous
+              </Button>
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+};
+
+export default ProjectPage;
