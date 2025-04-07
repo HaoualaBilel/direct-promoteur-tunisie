@@ -1,18 +1,17 @@
 
-// Project-related types
 export interface Project {
   id: string;
   title: string;
   promoter: string;
   promoterId: string;
   location: string;
-  fullAddress: string;
+  fullAddress?: string;
   handoverDate: string;
-  propertyType: string;
+  propertyType: 'habitation' | 'commercial' | 'estivale' | 'mixte';
   imageUrl: string;
   description: string;
   features: string[];
-  gallery: string[];
+  gallery?: string[];
   units: ProjectUnit[];
   propertySpecs: {
     type: string;
@@ -39,8 +38,8 @@ export interface ProjectUnit {
   bathrooms?: number;
   orientation?: string;
   balcony?: boolean;
-  variants?: UnitVariant[];
   availability?: string;
+  variants?: UnitVariant[];
 }
 
 export interface UnitVariant {
@@ -51,7 +50,14 @@ export interface UnitVariant {
   price: string;
   planImage: string;
   orientation: string;
-  features?: string[];
+  features: string[];
+}
+
+export interface ProfessionalCategory {
+  id: string;
+  name: string;
+  icon: string;
+  description: string;
 }
 
 export interface Professional {
@@ -60,36 +66,25 @@ export interface Professional {
   categoryId: string;
   categoryName: string;
   specialty: string;
-  contact?: {
+  description?: string;
+  location?: string;
+  rating?: number;
+  projectCount?: number;
+  founded?: number;
+  contact: {
     phone?: string;
     email?: string;
     website?: string;
   };
   logo?: string;
-}
-
-export interface ProfessionalCategory {
-  id: string;
-  name: string;
-  icon: string;
-  description?: string;
-}
-
-// Promoter-related types
-export interface Promoter {
-  id: string;
-  name: string;
-  description: string;
-  logoUrl: string;
-  email: string;
-  phone: string;
-  website?: string;
-  address: string;
-  socialLinks?: {
-    facebook?: string;
-    instagram?: string;
-    linkedin?: string;
-  };
+  gallery?: string[];
+  projects?: { id: string; name: string }[];
+  services?: string[];
   certifications?: string[];
-  values?: string[];
+  testimonials?: {
+    author: string;
+    role?: string;
+    content: string;
+    rating: number;
+  }[];
 }

@@ -16,7 +16,7 @@ const Footer = () => {
             </p>
           </div>
           
-          <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-4 gap-8">
             <div>
               <h3 className="font-semibold text-mineral mb-4">Navigation</h3>
               <ul className="space-y-2">
@@ -34,6 +34,14 @@ const Footer = () => {
                 <li><Link to="/proprietes/habitations" className="text-gray-600 hover:text-sage transition-colors">Habitations</Link></li>
                 <li><Link to="/proprietes/commerciales" className="text-gray-600 hover:text-sage transition-colors">Commerciales</Link></li>
                 <li><Link to="/proprietes/estivales" className="text-gray-600 hover:text-sage transition-colors">Estivales</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold text-mineral mb-4">Professionnels</h3>
+              <ul className="space-y-2">
+                <li><Link to="/professionnels" className="text-gray-600 hover:text-sage transition-colors">Par catégorie</Link></li>
+                <li><Link to="/professionnels/recherche" className="text-gray-600 hover:text-sage transition-colors">Recherche avancée</Link></li>
               </ul>
             </div>
             

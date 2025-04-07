@@ -46,6 +46,14 @@ const Navbar = () => {
         { name: 'Estivales', href: '/proprietes/estivales' }
       ]
     },
+    {
+      title: 'Professionnels',
+      dropdown: true,
+      items: [
+        { name: 'Par catégorie', href: '/professionnels' },
+        { name: 'Recherche avancée', href: '/professionnels/recherche' }
+      ]
+    },
     { title: 'Actu Promoteur', href: '/actu-promoteur' },
     { title: 'Guide pratique', href: '/guide-pratique' },
     { title: 'Contact', href: '/contact' }

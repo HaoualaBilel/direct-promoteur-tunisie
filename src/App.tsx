@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import ProjectPage from "./pages/ProjectPage";
 import PromoterPage from "./pages/PromoterPage";
+import ProfessionalsPage from "./pages/ProfessionalsPage";
+import ProfessionalPage from "./pages/ProfessionalPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +31,9 @@ const App = () => (
           <Route path="/proprietes/habitations" element={<Index />} />
           <Route path="/proprietes/commerciales" element={<Index />} />
           <Route path="/proprietes/estivales" element={<Index />} />
+          <Route path="/professionnels" element={<ProfessionalsPage />} />
+          <Route path="/professionnels/recherche" element={<ProfessionalsPage searchMode />} />
+          <Route path="/professionnels/:id" element={<ProfessionalPage />} />
           <Route path="/actu-promoteur" element={<Index />} />
           <Route path="/guide-pratique" element={<Index />} />
           <Route path="/contact" element={<Index />} />

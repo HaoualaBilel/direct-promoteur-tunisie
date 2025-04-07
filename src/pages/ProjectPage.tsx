@@ -796,15 +796,15 @@ const ProjectPage = () => {
                   
                   <TabsContent value="all" className="pt-4">
                     <div className="space-y-6">
-                      {project.units.map((unit) => (
+                      {project?.units.map((unit) => (
                         <Card key={unit.id} className="overflow-hidden">
                           <div className="flex flex-col md:flex-row">
-                            <div className="w-full md:w-1/4 bg-gray-100">
-                              <img 
-                                src={unit.planImage} 
-                                alt={`Plan ${unit.type}`} 
-                                className="w-full h-full object-cover" 
-                              />
+                            <div className="w-full md:w-1/4 bg-blue-50 flex items-center justify-center p-4">
+                              <div className="text-center">
+                                <div className="font-semibold text-mineral mb-2">{unit.type}</div>
+                                <div className="text-sm text-gray-600 mb-1">{unit.area}</div>
+                                <div className="text-xs bg-mineral/10 p-1 rounded">Voir les plans</div>
+                              </div>
                             </div>
                             
                             <CardContent className="flex-1 p-4 md:p-6">
@@ -870,7 +870,14 @@ const ProjectPage = () => {
                                   
                                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                                     {unit.variants.map((variant) => (
-                                      <div key={variant.id} className="border rounded-md p-3">
+                                      <div key={variant.id} className="border rounded-md p-3 hover:shadow-md transition-shadow group">
+                                        <div className="aspect-[4/3] bg-gray-100 mb-2 overflow-hidden rounded">
+                                          <img 
+                                            src={variant.planImage} 
+                                            alt={`Plan ${variant.name}`} 
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                                          />
+                                        </div>
                                         <h4 className="font-medium text-mineral">{variant.name}</h4>
                                         <p className="text-sm text-gray-600">{variant.area} | Étage {variant.floor}</p>
                                         <p className="text-sm font-medium mt-1">{variant.price}</p>
