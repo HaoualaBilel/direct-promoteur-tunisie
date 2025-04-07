@@ -9,6 +9,9 @@ import ProjectPage from "./pages/ProjectPage";
 import PromoterPage from "./pages/PromoterPage";
 import ProfessionalsPage from "./pages/ProfessionalsPage";
 import ProfessionalPage from "./pages/ProfessionalPage";
+import ContactPage from "./pages/ContactPage";
+import PromoterContactPage from "./pages/PromoterContactPage";
+import PromoterNewsPage from "./pages/PromoterNewsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,19 +34,23 @@ const App = () => (
           <Route path="/proprietes/habitations" element={<Index />} />
           <Route path="/proprietes/commerciales" element={<Index />} />
           <Route path="/proprietes/estivales" element={<Index />} />
+          <Route path="/proprietes/garages" element={<Index />} />
+          <Route path="/proprietes/mixtes" element={<Index />} />
           <Route path="/professionnels" element={<ProfessionalsPage />} />
           <Route path="/professionnels/recherche" element={<ProfessionalsPage searchMode />} />
+          <Route path="/professionnels/inscription" element={<Index />} />
           <Route path="/professionnels/:id" element={<ProfessionalPage />} />
-          <Route path="/actu-promoteur" element={<Index />} />
+          <Route path="/actu-promoteur" element={<PromoterNewsPage />} />
+          <Route path="/actu-promoteur/:id" element={<Index />} />
           <Route path="/guide-pratique" element={<Index />} />
-          <Route path="/contact" element={<Index />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/carte" element={<Index />} />
           <Route path="/mentions-legales" element={<Index />} />
           <Route path="/confidentialite" element={<Index />} />
           <Route path="/conditions" element={<Index />} />
           <Route path="/projets/:id" element={<ProjectPage />} />
           <Route path="/promoteurs/:id" element={<PromoterPage />} />
-          <Route path="/actu-promoteur/:id" element={<Index />} />
+          <Route path="/promoteurs/:id/contact" element={<PromoterContactPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

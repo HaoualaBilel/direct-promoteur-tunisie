@@ -7,7 +7,7 @@ export interface Project {
   location: string;
   fullAddress?: string;
   handoverDate: string;
-  propertyType: 'habitation' | 'commercial' | 'estivale' | 'mixte';
+  propertyType: 'habitation' | 'commercial' | 'estivale' | 'mixte' | 'garage';
   imageUrl: string;
   description: string;
   features: string[];
@@ -75,6 +75,7 @@ export interface Professional {
     phone?: string;
     email?: string;
     website?: string;
+    address?: string;
   };
   logo?: string;
   gallery?: string[];
@@ -87,4 +88,49 @@ export interface Professional {
     content: string;
     rating: number;
   }[];
+  social?: {
+    facebook?: string;
+    instagram?: string;
+    linkedin?: string;
+    twitter?: string;
+  };
+}
+
+export interface Promoter {
+  id: string;
+  name: string;
+  logo?: string;
+  description?: string;
+  founded?: number;
+  projects?: number;
+  location?: string;
+  contact?: {
+    address?: string;
+    phone?: string;
+    email?: string;
+    website?: string;
+  };
+  social?: {
+    facebook?: string;
+    instagram?: string;
+    linkedin?: string;
+    twitter?: string;
+  };
+  activeProjects?: { id: string; name: string }[];
+  completedProjects?: { id: string; name: string }[];
+}
+
+export interface NewsArticle {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  date: string;
+  imageUrl: string;
+  category: string;
+  promoterId: string;
+  promoterName: string;
+  promoterLogo?: string;
+  tags: string[];
+  location?: string;
 }

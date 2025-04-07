@@ -43,7 +43,9 @@ const Navbar = () => {
       items: [
         { name: 'Habitations', href: '/proprietes/habitations' },
         { name: 'Commerciales', href: '/proprietes/commerciales' },
-        { name: 'Estivales', href: '/proprietes/estivales' }
+        { name: 'Estivales', href: '/proprietes/estivales' },
+        { name: 'Garages & parking', href: '/proprietes/garages' },
+        { name: 'Locaux mixtes', href: '/proprietes/mixtes' }
       ]
     },
     {
@@ -51,7 +53,8 @@ const Navbar = () => {
       dropdown: true,
       items: [
         { name: 'Par catégorie', href: '/professionnels' },
-        { name: 'Recherche avancée', href: '/professionnels/recherche' }
+        { name: 'Recherche avancée', href: '/professionnels/recherche' },
+        { name: 'Ajouter votre entreprise', href: '/professionnels/inscription' }
       ]
     },
     { title: 'Actu Promoteur', href: '/actu-promoteur' },

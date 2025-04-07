@@ -9,8 +9,10 @@ import NewsCard from '@/components/NewsCard';
 import MapSection from '@/components/MapSection';
 import PartnerSlider from '@/components/PartnerSlider';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Building2, MapPin, Users, Tool } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 
 // Mock data for demonstration
 const projectsData = [
@@ -180,6 +182,9 @@ const Index = () => {
           </div>
         </section>
         
+        {/* Map Section - Moved before News Section */}
+        <MapSection />
+        
         {/* News Section */}
         <section className="section-padding bg-white">
           <div className="container-custom">
@@ -214,8 +219,89 @@ const Index = () => {
           </div>
         </section>
         
-        {/* Map Section */}
-        <MapSection />
+        {/* Professionals Section - New section */}
+        <section className="section-padding bg-gradient-to-r from-mineral/5 to-sage/10">
+          <div className="container-custom">
+            <h2 className="section-title">Professionnels du Bâtiment</h2>
+            <p className="section-subtitle">
+              Trouvez les meilleurs experts pour vous accompagner dans votre projet immobilier, de la conception à la réalisation.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+              <Card className="hover:shadow-md transition-shadow border-none">
+                <CardContent className="p-8 flex flex-col items-center text-center">
+                  <div className="w-16 h-16 flex items-center justify-center bg-mineral/10 rounded-full mb-6">
+                    <Building2 size={32} className="text-mineral" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-mineral mb-3">Entreprises de construction</h3>
+                  <p className="text-gray-600 mb-6">
+                    Des entreprises spécialisées dans le gros œuvre, les fondations et la structure de votre bien immobilier.
+                  </p>
+                  <Badge className="mb-2">Bâtiment & Gros œuvre</Badge>
+                  <Button asChild variant="outline" className="mt-4">
+                    <Link to="/professionnels?category=1">
+                      Découvrir
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              <Card className="hover:shadow-md transition-shadow border-none">
+                <CardContent className="p-8 flex flex-col items-center text-center">
+                  <div className="w-16 h-16 flex items-center justify-center bg-mineral/10 rounded-full mb-6">
+                    <Tool size={32} className="text-mineral" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-mineral mb-3">Artisans et second œuvre</h3>
+                  <p className="text-gray-600 mb-6">
+                    Des professionnels qualifiés pour les finitions, l'aménagement intérieur et les installations techniques.
+                  </p>
+                  <Badge className="mb-2">Électricité, Plomberie, Menuiserie</Badge>
+                  <Button asChild variant="outline" className="mt-4">
+                    <Link to="/professionnels?category=3">
+                      Découvrir
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              <Card className="hover:shadow-md transition-shadow border-none">
+                <CardContent className="p-8 flex flex-col items-center text-center">
+                  <div className="w-16 h-16 flex items-center justify-center bg-mineral/10 rounded-full mb-6">
+                    <Users size={32} className="text-mineral" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-mineral mb-3">Services et conseils</h3>
+                  <p className="text-gray-600 mb-6">
+                    Des experts pour vous accompagner dans vos démarches administratives, financières et juridiques.
+                  </p>
+                  <Badge className="mb-2">Études, Contrôle, Services</Badge>
+                  <Button asChild variant="outline" className="mt-4">
+                    <Link to="/professionnels?category=10">
+                      Découvrir
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <div className="mt-16 bg-white p-8 rounded-lg shadow-sm flex flex-col md:flex-row items-center justify-between">
+              <div className="md:max-w-xl mb-6 md:mb-0">
+                <h3 className="text-2xl font-semibold text-mineral mb-3">
+                  Trouvez tous les professionnels pour votre projet
+                </h3>
+                <p className="text-gray-600">
+                  Que vous recherchiez un architecte, un électricien, un plombier ou un décorateur d'intérieur, 
+                  nos professionnels certifiés sont là pour vous aider à concrétiser votre projet immobilier.
+                </p>
+              </div>
+              
+              <Button asChild size="lg" className="px-6 py-6 text-lg">
+                <Link to="/professionnels">
+                  Voir tous les professionnels
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
         
         {/* Partners Section */}
         <PartnerSlider />
