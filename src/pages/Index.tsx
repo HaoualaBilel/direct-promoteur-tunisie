@@ -9,7 +9,7 @@ import NewsCard from '@/components/NewsCard';
 import MapSection from '@/components/MapSection';
 import PartnerSlider from '@/components/PartnerSlider';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Building2, MapPin, Users, Tool } from 'lucide-react';
+import { ArrowRight, Building2, MapPin, Users, Wrench } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -249,7 +249,7 @@ const Index = () => {
               <Card className="hover:shadow-md transition-shadow border-none">
                 <CardContent className="p-8 flex flex-col items-center text-center">
                   <div className="w-16 h-16 flex items-center justify-center bg-mineral/10 rounded-full mb-6">
-                    <Tool size={32} className="text-mineral" />
+                    <Wrench size={32} className="text-mineral" />
                   </div>
                   <h3 className="text-xl font-semibold text-mineral mb-3">Artisans et second œuvre</h3>
                   <p className="text-gray-600 mb-6">

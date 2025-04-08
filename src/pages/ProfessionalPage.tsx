@@ -9,9 +9,12 @@ import {
   ExternalLink, 
   Calendar,
   Briefcase,
-  Star,
   Check,
-  ArrowRight
+  ArrowRight,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Twitter
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -32,7 +35,6 @@ const professionalsData: Professional[] = [
     specialty: 'Entreprise de construction (gros œuvre)',
     description: 'Expert en construction de bâtiments résidentiels et commerciaux depuis plus de 30 ans. Spécialiste des structures en béton armé et des fondations.',
     location: 'Tunis, Tunisie',
-    rating: 4.8,
     projectCount: 24,
     founded: 1988,
     contact: {
@@ -60,20 +62,10 @@ const professionalsData: Professional[] = [
       'Certification ISO 9001',
       'Agrément technique BTP Classe A'
     ],
-    testimonials: [
-      { 
-        author: 'Delta Business',
-        role: 'Promoteur du Business Center Tunis',
-        content: 'Une équipe professionnelle qui a respecté les délais malgré un projet complexe. Excellente coordination avec les autres corps de métier.',
-        rating: 5
-      },
-      { 
-        author: 'Immobilière Carthage',
-        role: 'Promoteur de la Résidence Les Jardins de Carthage',
-        content: 'Nous collaborons depuis plusieurs années avec cette entreprise et sommes toujours satisfaits de la qualité du travail fourni.',
-        rating: 4.5
-      }
-    ]
+    social: {
+      facebook: 'https://facebook.com/elbouniene',
+      linkedin: 'https://linkedin.com/company/elbouniene'
+    }
   },
   {
     id: 'p2',
@@ -83,7 +75,6 @@ const professionalsData: Professional[] = [
     specialty: 'Entreprise de fondation profonde (pieux, radier…)',
     description: 'Spécialiste des fondations profondes et des technologies innovantes pour les sols difficiles. Intervention sur les grands projets d\'infrastructure.',
     location: 'Sousse, Tunisie',
-    rating: 4.5,
     projectCount: 18,
     founded: 2005,
     contact: {
@@ -107,7 +98,11 @@ const professionalsData: Professional[] = [
     certifications: [
       'Certification ISO 14001',
       'Agrément technique BTP Classe B'
-    ]
+    ],
+    social: {
+      facebook: 'https://facebook.com/fondationssolides',
+      instagram: 'https://instagram.com/fondationssolides'
+    }
   },
   {
     id: 'p3',
@@ -117,7 +112,6 @@ const professionalsData: Professional[] = [
     specialty: 'Cloisons & Plâtrerie',
     description: 'Spécialiste en plâtrerie pour des finitions parfaites. Solutions acoustiques et esthétiques pour tous types de projets immobiliers.',
     location: 'Tunis, Tunisie',
-    rating: 4.7,
     projectCount: 32,
     founded: 2010,
     contact: {
@@ -130,7 +124,10 @@ const professionalsData: Professional[] = [
     ],
     projects: [
       { id: '1', name: 'Résidence Les Jardins de Carthage' }
-    ]
+    ],
+    social: {
+      twitter: 'https://twitter.com/platreriemodern'
+    }
   },
   {
     id: 'p6',
@@ -140,7 +137,6 @@ const professionalsData: Professional[] = [
     specialty: 'Électricité bâtiment (tableau, câblage, prises)',
     description: 'Installation électrique complète pour le résidentiel et le tertiaire. Certification aux normes internationales et solutions écoénergétiques.',
     location: 'Tunis, Tunisie',
-    rating: 4.9,
     projectCount: 45,
     founded: 1995,
     contact: {
@@ -155,7 +151,12 @@ const professionalsData: Professional[] = [
       { id: '1', name: 'Résidence Les Jardins de Carthage' },
       { id: '2', name: 'Marina Bay View' },
       { id: '3', name: 'Business Center Tunis' }
-    ]
+    ],
+    social: {
+      facebook: 'https://facebook.com/electunisie',
+      instagram: 'https://instagram.com/electunisie',
+      linkedin: 'https://linkedin.com/company/electunisie'
+    }
   },
   {
     id: 'p8',
@@ -165,7 +166,6 @@ const professionalsData: Professional[] = [
     specialty: 'Menuiserie aluminium',
     description: 'Fabricant et installateur de menuiserie aluminium de haute qualité. Solutions sur mesure pour fenêtres, portes, vérandas et façades.',
     location: 'Sfax, Tunisie',
-    rating: 4.6,
     projectCount: 29,
     founded: 2008,
     contact: {
@@ -179,7 +179,11 @@ const professionalsData: Professional[] = [
     projects: [
       { id: '2', name: 'Marina Bay View' },
       { id: '3', name: 'Business Center Tunis' }
-    ]
+    ],
+    social: {
+      facebook: 'https://facebook.com/alufenetres',
+      instagram: 'https://instagram.com/alufenetres'
+    }
   }
 ];
 
@@ -258,15 +262,9 @@ const ProfessionalPage = () => {
                   {professional.projectCount && (
                     <div className="flex items-center text-sm">
                       <Briefcase size={16} className="mr-1 text-mineral" />
-                      <span>{professional.projectCount} projets réalisés</span>
-                    </div>
-                  )}
-                  
-                  {professional.rating && (
-                    <div className="flex items-center text-sm">
-                      <Star size={16} className="mr-1 text-yellow-500" />
-                      <span className="font-medium">{professional.rating.toFixed(1)}</span>
-                      <span className="text-gray-500">/5.0</span>
+                      <Link to={`/professionnels/${professional.id}?tab=projects`} className="font-medium hover:text-sage transition-colors">
+                        {professional.projectCount} projets réalisés
+                      </Link>
                     </div>
                   )}
                 </div>
@@ -289,6 +287,40 @@ const ProfessionalPage = () => {
                       </a>
                     </Button>
                   )}
+                  
+                  {/* Social Media Buttons */}
+                  {professional.social && (
+                    <div className="flex gap-1 ml-1">
+                      {professional.social.facebook && (
+                        <Button variant="ghost" size="icon" asChild className="h-9 w-9 rounded-full bg-mineral/5">
+                          <a href={professional.social.facebook} target="_blank" rel="noopener noreferrer">
+                            <Facebook size={18} className="text-mineral" />
+                          </a>
+                        </Button>
+                      )}
+                      {professional.social.instagram && (
+                        <Button variant="ghost" size="icon" asChild className="h-9 w-9 rounded-full bg-mineral/5">
+                          <a href={professional.social.instagram} target="_blank" rel="noopener noreferrer">
+                            <Instagram size={18} className="text-mineral" />
+                          </a>
+                        </Button>
+                      )}
+                      {professional.social.linkedin && (
+                        <Button variant="ghost" size="icon" asChild className="h-9 w-9 rounded-full bg-mineral/5">
+                          <a href={professional.social.linkedin} target="_blank" rel="noopener noreferrer">
+                            <Linkedin size={18} className="text-mineral" />
+                          </a>
+                        </Button>
+                      )}
+                      {professional.social.twitter && (
+                        <Button variant="ghost" size="icon" asChild className="h-9 w-9 rounded-full bg-mineral/5">
+                          <a href={professional.social.twitter} target="_blank" rel="noopener noreferrer">
+                            <Twitter size={18} className="text-mineral" />
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -304,9 +336,6 @@ const ProfessionalPage = () => {
                   <TabsTrigger value="about">À propos</TabsTrigger>
                   <TabsTrigger value="services">Services</TabsTrigger>
                   <TabsTrigger value="projects">Projets</TabsTrigger>
-                  {professional.testimonials && (
-                    <TabsTrigger value="testimonials">Avis</TabsTrigger>
-                  )}
                 </TabsList>
                 
                 <TabsContent value="about" className="space-y-8">
@@ -403,49 +432,6 @@ const ProfessionalPage = () => {
                     </CardContent>
                   </Card>
                 </TabsContent>
-                
-                {professional.testimonials && (
-                  <TabsContent value="testimonials" className="space-y-8">
-                    <Card>
-                      <CardContent className="p-6">
-                        <h2 className="text-xl font-semibold text-mineral mb-4">
-                          Avis de clients
-                        </h2>
-                        
-                        {professional.testimonials && professional.testimonials.length > 0 ? (
-                          <div className="space-y-6">
-                            {professional.testimonials.map((testimonial, index) => (
-                              <div key={index} className="p-4 bg-mineral/5 rounded-md">
-                                <div className="flex items-center justify-between mb-2">
-                                  <div>
-                                    <h3 className="font-medium">{testimonial.author}</h3>
-                                    {testimonial.role && (
-                                      <p className="text-sm text-gray-600">{testimonial.role}</p>
-                                    )}
-                                  </div>
-                                  
-                                  <div className="flex">
-                                    {Array.from({ length: 5 }).map((_, i) => (
-                                      <Star 
-                                        key={i} 
-                                        size={16} 
-                                        className={i < Math.floor(testimonial.rating) ? 'text-yellow-500' : 'text-gray-300'} 
-                                      />
-                                    ))}
-                                  </div>
-                                </div>
-                                
-                                <p className="text-gray-700">"{testimonial.content}"</p>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <p className="text-gray-500">Aucun avis disponible pour ce professionnel.</p>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </TabsContent>
-                )}
               </Tabs>
             </div>
             
@@ -505,6 +491,54 @@ const ProfessionalPage = () => {
                         <p className="text-gray-600">{professional.location}</p>
                       </div>
                     </div>
+                    
+                    {professional.social && Object.values(professional.social).some(value => value) && (
+                      <div className="pt-2">
+                        <p className="font-medium mb-2">Réseaux sociaux</p>
+                        <div className="flex gap-2">
+                          {professional.social.facebook && (
+                            <a 
+                              href={professional.social.facebook} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="bg-mineral/5 p-2 rounded-md hover:bg-mineral/10 transition-colors"
+                            >
+                              <Facebook size={18} className="text-mineral" />
+                            </a>
+                          )}
+                          {professional.social.instagram && (
+                            <a 
+                              href={professional.social.instagram} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="bg-mineral/5 p-2 rounded-md hover:bg-mineral/10 transition-colors"
+                            >
+                              <Instagram size={18} className="text-mineral" />
+                            </a>
+                          )}
+                          {professional.social.linkedin && (
+                            <a 
+                              href={professional.social.linkedin} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="bg-mineral/5 p-2 rounded-md hover:bg-mineral/10 transition-colors"
+                            >
+                              <Linkedin size={18} className="text-mineral" />
+                            </a>
+                          )}
+                          {professional.social.twitter && (
+                            <a 
+                              href={professional.social.twitter} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="bg-mineral/5 p-2 rounded-md hover:bg-mineral/10 transition-colors"
+                            >
+                              <Twitter size={18} className="text-mineral" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                   
                   <Separator className="my-4" />
@@ -540,7 +574,10 @@ const ProfessionalPage = () => {
                                 {pro.name}
                               </Link>
                             </h3>
-                            <p className="text-sm text-gray-600">{pro.specialty}</p>
+                            <p className="text-sm text-gray-600 flex items-center mt-1">
+                              <Briefcase size={14} className="mr-1 text-mineral/60" />
+                              <span>{pro.projectCount} projets</span>
+                            </p>
                           </div>
                         </div>
                       ))}

@@ -68,7 +68,6 @@ export interface Professional {
   specialty: string;
   description?: string;
   location?: string;
-  rating?: number;
   projectCount?: number;
   founded?: number;
   contact: {
@@ -82,12 +81,6 @@ export interface Professional {
   projects?: { id: string; name: string }[];
   services?: string[];
   certifications?: string[];
-  testimonials?: {
-    author: string;
-    role?: string;
-    content: string;
-    rating: number;
-  }[];
   social?: {
     facebook?: string;
     instagram?: string;
