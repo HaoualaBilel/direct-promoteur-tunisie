@@ -3,56 +3,59 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '@/components/Logo';
 import { Separator } from '@/components/ui/separator';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Footer = () => {
+  const { t, language } = useLanguage();
+
   return (
     <footer className="bg-white border-t border-gray-200 mt-auto">
       <div className="container-custom py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8" dir={language === 'ar' ? 'rtl' : 'ltr'}>
           <div className="md:col-span-1">
             <Logo />
             <p className="mt-4 text-sm text-gray-600">
-              Le guide de référence pour trouver votre logement neuf en Tunisie.
+              {t('Le guide de référence pour trouver votre logement neuf en Tunisie.')}
             </p>
           </div>
           
           <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-4 gap-8">
             <div>
-              <h3 className="font-semibold text-mineral mb-4">Navigation</h3>
+              <h3 className="font-semibold text-mineral mb-4">{t('Navigation')}</h3>
               <ul className="space-y-2">
-                <li><Link to="/" className="text-gray-600 hover:text-sage transition-colors">Accueil</Link></li>
-                <li><Link to="/projets" className="text-gray-600 hover:text-sage transition-colors">Nos projets</Link></li>
-                <li><Link to="/promoteurs" className="text-gray-600 hover:text-sage transition-colors">Promoteurs</Link></li>
-                <li><Link to="/carte" className="text-gray-600 hover:text-sage transition-colors">Carte des projets</Link></li>
-                <li><Link to="/contact" className="text-gray-600 hover:text-sage transition-colors">Contact</Link></li>
+                <li><Link to="/" className="text-gray-600 hover:text-sage transition-colors">{t('Accueil')}</Link></li>
+                <li><Link to="/projets" className="text-gray-600 hover:text-sage transition-colors">{t('Nos projets')}</Link></li>
+                <li><Link to="/promoteurs" className="text-gray-600 hover:text-sage transition-colors">{t('Promoteurs')}</Link></li>
+                <li><Link to="/carte" className="text-gray-600 hover:text-sage transition-colors">{t('Carte des projets')}</Link></li>
+                <li><Link to="/contact" className="text-gray-600 hover:text-sage transition-colors">{t('Contact')}</Link></li>
               </ul>
             </div>
             
             <div>
-              <h3 className="font-semibold text-mineral mb-4">Types de biens</h3>
+              <h3 className="font-semibold text-mineral mb-4">{t('Types de biens')}</h3>
               <ul className="space-y-2">
-                <li><Link to="/proprietes/habitations" className="text-gray-600 hover:text-sage transition-colors">Habitations</Link></li>
-                <li><Link to="/proprietes/commerciales" className="text-gray-600 hover:text-sage transition-colors">Commerciales</Link></li>
-                <li><Link to="/proprietes/estivales" className="text-gray-600 hover:text-sage transition-colors">Estivales</Link></li>
+                <li><Link to="/proprietes/habitations" className="text-gray-600 hover:text-sage transition-colors">{t('Habitations')}</Link></li>
+                <li><Link to="/proprietes/commerciales" className="text-gray-600 hover:text-sage transition-colors">{t('Commerciales')}</Link></li>
+                <li><Link to="/proprietes/estivales" className="text-gray-600 hover:text-sage transition-colors">{t('Estivales')}</Link></li>
               </ul>
             </div>
             
             <div>
-              <h3 className="font-semibold text-mineral mb-4">Professionnels</h3>
+              <h3 className="font-semibold text-mineral mb-4">{t('Professionnels')}</h3>
               <ul className="space-y-2">
-                <li><Link to="/professionnels" className="text-gray-600 hover:text-sage transition-colors">Par catégorie</Link></li>
-                <li><Link to="/professionnels/recherche" className="text-gray-600 hover:text-sage transition-colors">Recherche avancée</Link></li>
+                <li><Link to="/professionnels" className="text-gray-600 hover:text-sage transition-colors">{t('Par catégorie')}</Link></li>
+                <li><Link to="/professionnels/recherche" className="text-gray-600 hover:text-sage transition-colors">{t('Recherche avancée')}</Link></li>
               </ul>
             </div>
             
             <div>
-              <h3 className="font-semibold text-mineral mb-4">Informations</h3>
+              <h3 className="font-semibold text-mineral mb-4">{t('Informations')}</h3>
               <ul className="space-y-2">
-                <li><Link to="/guide-pratique" className="text-gray-600 hover:text-sage transition-colors">Guide pratique</Link></li>
-                <li><Link to="/actu-promoteur" className="text-gray-600 hover:text-sage transition-colors">Actualités</Link></li>
-                <li><Link to="/mentions-legales" className="text-gray-600 hover:text-sage transition-colors">Mentions légales</Link></li>
-                <li><Link to="/confidentialite" className="text-gray-600 hover:text-sage transition-colors">Politique de confidentialité</Link></li>
-                <li><Link to="/conditions" className="text-gray-600 hover:text-sage transition-colors">Conditions d'utilisation</Link></li>
+                <li><Link to="/guide-pratique" className="text-gray-600 hover:text-sage transition-colors">{t('Guide pratique')}</Link></li>
+                <li><Link to="/actu-promoteur" className="text-gray-600 hover:text-sage transition-colors">{t('Actualités')}</Link></li>
+                <li><Link to="/mentions-legales" className="text-gray-600 hover:text-sage transition-colors">{t('Mentions légales')}</Link></li>
+                <li><Link to="/confidentialite" className="text-gray-600 hover:text-sage transition-colors">{t('Politique de confidentialité')}</Link></li>
+                <li><Link to="/conditions" className="text-gray-600 hover:text-sage transition-colors">{t('Conditions d\'utilisation')}</Link></li>
               </ul>
             </div>
           </div>
@@ -60,9 +63,9 @@ const Footer = () => {
         
         <Separator className="my-6" />
         
-        <div className="flex flex-col sm:flex-row justify-between items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-center" dir={language === 'ar' ? 'rtl' : 'ltr'}>
           <p className="text-sm text-gray-600 mb-4 sm:mb-0">
-            © 2023 ProjetNeuf.tn - Tous droits réservés
+            © 2023 ProjetNeuf.tn - {t('Tous droits réservés')}
           </p>
           
           <div className="flex space-x-4">

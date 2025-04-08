@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Logo from './Logo';
+import LanguageToggle from './LanguageToggle';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const { t, language } = useLanguage();
 
   const toggleDropdown = (menu: string) => {
     if (openDropdown === menu) {
@@ -19,47 +22,47 @@ const Navbar = () => {
 
   const navItems = [
     {
-      title: 'Projets',
+      title: t('Projets'),
       dropdown: true,
       items: [
-        { name: 'Remise des clés 2026', href: '/projets/2026' },
-        { name: 'Remise des clés 2025', href: '/projets/2025' },
-        { name: 'Remise des clés immédiate', href: '/projets/immediate' },
-        { name: 'Projets vendus', href: '/projets/vendus' },
-        { name: 'Tous les projets', href: '/projets' }
+        { name: t('Remise des clés 2026'), href: '/projets/2026' },
+        { name: t('Remise des clés 2025'), href: '/projets/2025' },
+        { name: t('Remise des clés immédiate'), href: '/projets/immediate' },
+        { name: t('Projets vendus'), href: '/projets/vendus' },
+        { name: t('Tous les projets'), href: '/projets' }
       ]
     },
     {
-      title: 'Promoteurs',
+      title: t('Promoteurs'),
       dropdown: true,
       items: [
-        { name: 'Promoteurs populaires', href: '/promoteurs/populaires' },
-        { name: 'Tous les promoteurs', href: '/promoteurs' }
+        { name: t('Promoteurs populaires'), href: '/promoteurs/populaires' },
+        { name: t('Tous les promoteurs'), href: '/promoteurs' }
       ]
     },
     {
-      title: 'Propriétés',
+      title: t('Propriétés'),
       dropdown: true,
       items: [
-        { name: 'Habitations', href: '/proprietes/habitations' },
-        { name: 'Commerciales', href: '/proprietes/commerciales' },
-        { name: 'Estivales', href: '/proprietes/estivales' },
-        { name: 'Garages & parking', href: '/proprietes/garages' },
-        { name: 'Locaux mixtes', href: '/proprietes/mixtes' }
+        { name: t('Habitations'), href: '/proprietes/habitations' },
+        { name: t('Commerciales'), href: '/proprietes/commerciales' },
+        { name: t('Estivales'), href: '/proprietes/estivales' },
+        { name: t('Garages & parking'), href: '/proprietes/garages' },
+        { name: t('Locaux mixtes'), href: '/proprietes/mixtes' }
       ]
     },
     {
-      title: 'Professionnels',
+      title: t('Professionnels'),
       dropdown: true,
       items: [
-        { name: 'Par catégorie', href: '/professionnels' },
-        { name: 'Recherche avancée', href: '/professionnels/recherche' },
-        { name: 'Ajouter votre entreprise', href: '/professionnels/inscription' }
+        { name: t('Par catégorie'), href: '/professionnels' },
+        { name: t('Recherche avancée'), href: '/professionnels/recherche' },
+        { name: t('Ajouter votre entreprise'), href: '/professionnels/inscription' }
       ]
     },
-    { title: 'Actu Promoteur', href: '/actu-promoteur' },
-    { title: 'Guide pratique', href: '/guide-pratique' },
-    { title: 'Contact', href: '/contact' }
+    { title: t('Actu Promoteur'), href: '/actu-promoteur' },
+    { title: t('Guide pratique'), href: '/guide-pratique' },
+    { title: t('Contact'), href: '/contact' }
   ];
 
   return (
@@ -71,7 +74,7 @@ const Navbar = () => {
               <Logo />
             </Link>
             
-            <div className="hidden lg:flex space-x-6">
+            <div className="hidden lg:flex space-x-6" dir={language === 'ar' ? 'rtl' : 'ltr'}>
               {navItems.map((item) => (
                 item.dropdown ? (
                   <div key={item.title} className="relative group">
@@ -84,7 +87,7 @@ const Navbar = () => {
                     </button>
                     
                     {openDropdown === item.title && (
-                      <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                      <div className={`absolute ${language === 'ar' ? 'right-0' : 'left-0'} mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10`}>
                         {item.items?.map((subItem) => (
                           <Link
                             key={subItem.name}
@@ -112,12 +115,14 @@ const Navbar = () => {
           </div>
 
           <div className="hidden lg:flex items-center space-x-4">
+            <LanguageToggle />
             <Button asChild variant="outline" className="border-mineral text-mineral hover:bg-mineral/5">
-              <Link to="/contact">Contactez-nous</Link>
+              <Link to="/contact">{t('Contactez-nous')}</Link>
             </Button>
           </div>
 
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center gap-2">
+            <LanguageToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-mineral p-2"
@@ -130,7 +135,7 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="lg:hidden bg-white py-4 px-6 shadow-lg">
+        <div className="lg:hidden bg-white py-4 px-6 shadow-lg" dir={language === 'ar' ? 'rtl' : 'ltr'}>
           <div className="flex flex-col space-y-4">
             {navItems.map((item) => (
               <div key={item.title}>
@@ -173,7 +178,7 @@ const Navbar = () => {
             
             <div className="pt-4">
               <Button asChild className="w-full bg-mineral text-white hover:bg-mineral/90">
-                <Link to="/contact" onClick={() => setIsOpen(false)}>Contactez-nous</Link>
+                <Link to="/contact" onClick={() => setIsOpen(false)}>{t('Contactez-nous')}</Link>
               </Button>
             </div>
           </div>

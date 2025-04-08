@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Array of banner images for rotation
 const bannerImages = [
@@ -13,6 +14,7 @@ const bannerImages = [
 
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { t, language } = useLanguage();
   
   // Rotate through images
   useEffect(() => {
@@ -56,21 +58,21 @@ const Hero = () => {
       {/* Content overlay */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 container-custom">
         <div className="absolute top-2 right-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded text-xs text-white">
-          Espace publicitaire
+          {t('Espace publicitaire')}
         </div>
         
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-4xl animate-fade-in">
-          Découvrez les meilleurs projets immobiliers en Tunisie
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-4xl animate-fade-in" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+          {t('Découvrez les meilleurs projets immobiliers en Tunisie')}
         </h1>
-        <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl animate-slide-in">
-          Connectez-vous directement avec les promoteurs de confiance pour trouver votre bien immobilier idéal
+        <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl animate-slide-in" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+          {t('Connectez-vous directement avec les promoteurs de confiance pour trouver votre bien immobilier idéal')}
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <Button asChild className="bg-sage text-mineral hover:bg-sage/90 px-8 py-6 text-lg">
-            <Link to="/projets">Explorer les projets</Link>
+            <Link to="/projets">{t('Explorer les projets')}</Link>
           </Button>
           <Button asChild variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg">
-            <Link to="/contact">Contactez-nous</Link>
+            <Link to="/contact">{t('Contactez-nous')}</Link>
           </Button>
         </div>
       </div>
