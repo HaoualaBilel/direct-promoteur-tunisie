@@ -114,32 +114,6 @@
   }
 }
 
-/* Add RTL styling */
-[dir="rtl"] .ml-1 {
-  margin-left: 0;
-  margin-right: 0.25rem;
-}
-
-[dir="rtl"] .ml-4 {
-  margin-left: 0;
-  margin-right: 1rem;
-}
-
-[dir="rtl"] .mr-8 {
-  margin-right: 0;
-  margin-left: 2rem;
-}
-
-[dir="rtl"] .space-x-6 > * + * {
-  margin-left: 0;
-  margin-right: 1.5rem;
-}
-
-[dir="rtl"] .space-x-4 > * + * {
-  margin-left: 0;
-  margin-right: 1rem;
-}
-
 /* Animation classes */
 .animate-fade-in {
   animation: fadeIn 1s ease-in-out;

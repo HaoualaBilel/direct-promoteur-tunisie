@@ -14,6 +14,7 @@ import ContactPage from "./pages/ContactPage";
 import PromoterContactPage from "./pages/PromoterContactPage";
 import PromoterNewsPage from "./pages/PromoterNewsPage";
 import GuidePratique from "./pages/GuidePratique";
+import CompanyRegistrationPage from "./pages/CompanyRegistrationPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,7 +42,7 @@ const App = () => (
             <Route path="/proprietes/mixtes" element={<Index />} />
             <Route path="/professionnels" element={<ProfessionalsPage />} />
             <Route path="/professionnels/recherche" element={<ProfessionalsPage searchMode />} />
-            <Route path="/professionnels/inscription" element={<Index />} />
+            <Route path="/professionnels/inscription" element={<CompanyRegistrationPage />} />
             <Route path="/professionnels/:id" element={<ProfessionalPage />} />
             <Route path="/actu-promoteur" element={<PromoterNewsPage />} />
             <Route path="/actu-promoteur/:id" element={<Index />} />

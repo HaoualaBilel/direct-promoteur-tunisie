@@ -4,13 +4,12 @@ import { Link } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Logo from './Logo';
-import LanguageToggle from './LanguageToggle';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const toggleDropdown = (menu: string) => {
     if (openDropdown === menu) {
@@ -74,7 +73,7 @@ const Navbar = () => {
               <Logo />
             </Link>
             
-            <div className="hidden lg:flex space-x-6" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+            <div className="hidden lg:flex space-x-6">
               {navItems.map((item) => (
                 item.dropdown ? (
                   <div key={item.title} className="relative group">
@@ -87,7 +86,7 @@ const Navbar = () => {
                     </button>
                     
                     {openDropdown === item.title && (
-                      <div className={`absolute ${language === 'ar' ? 'right-0' : 'left-0'} mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10`}>
+                      <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
                         {item.items?.map((subItem) => (
                           <Link
                             key={subItem.name}
@@ -114,15 +113,13 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="hidden lg:flex items-center space-x-4">
-            <LanguageToggle />
-            <Button asChild variant="outline" className="border-mineral text-mineral hover:bg-mineral/5">
+          <div className="hidden lg:flex items-center">
+            <Button asChild variant="default" className="bg-blue-600 text-white hover:bg-blue-700">
               <Link to="/contact">{t('Contactez-nous')}</Link>
             </Button>
           </div>
 
-          <div className="lg:hidden flex items-center gap-2">
-            <LanguageToggle />
+          <div className="lg:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-mineral p-2"
@@ -135,7 +132,7 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="lg:hidden bg-white py-4 px-6 shadow-lg" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+        <div className="lg:hidden bg-white py-4 px-6 shadow-lg">
           <div className="flex flex-col space-y-4">
             {navItems.map((item) => (
               <div key={item.title}>
@@ -177,7 +174,7 @@ const Navbar = () => {
             ))}
             
             <div className="pt-4">
-              <Button asChild className="w-full bg-mineral text-white hover:bg-mineral/90">
+              <Button asChild className="w-full bg-blue-600 text-white hover:bg-blue-700">
                 <Link to="/contact" onClick={() => setIsOpen(false)}>{t('Contactez-nous')}</Link>
               </Button>
             </div>
