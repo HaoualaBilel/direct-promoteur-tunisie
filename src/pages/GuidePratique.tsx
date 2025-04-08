@@ -3,6 +3,7 @@ import React from 'react';
 import { ChevronRight, Building, PiggyBank, Award, TrendingUp, BookOpen, Landmark, FileCheck, Wallet, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
