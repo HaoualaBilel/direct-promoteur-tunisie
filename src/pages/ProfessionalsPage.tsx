@@ -4,22 +4,18 @@ import { Link } from 'react-router-dom';
 import { 
   Building2, 
   MapPin, 
-  Phone, 
-  Mail, 
-  ExternalLink, 
   Search, 
   Filter, 
-  Star,
   TrendingUp,
   CheckCircle,
-  Users
+  Users,
+  Briefcase
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { 
   Select,
@@ -30,6 +26,8 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Professional, ProfessionalCategory } from '@/types/models';
+import ProfessionalCard from '@/components/ProfessionalCard';
+import ProfessionalListItem from '@/components/ProfessionalListItem';
 
 // Professional categories data
 const professionalCategories: ProfessionalCategory[] = [
@@ -56,7 +54,6 @@ const professionalsData: Professional[] = [
     specialty: 'Entreprise de construction (gros œuvre)',
     description: 'Expert en construction de bâtiments résidentiels et commerciaux depuis plus de 30 ans. Spécialiste des structures en béton armé et des fondations.',
     location: 'Tunis, Tunisie',
-    rating: 4.8,
     projectCount: 24,
     founded: 1988,
     contact: {
@@ -82,7 +79,6 @@ const professionalsData: Professional[] = [
     specialty: 'Entreprise de fondation profonde (pieux, radier…)',
     description: 'Spécialiste des fondations profondes et des technologies innovantes pour les sols difficiles. Intervention sur les grands projets d\'infrastructure.',
     location: 'Sousse, Tunisie',
-    rating: 4.5,
     projectCount: 18,
     founded: 2005,
     contact: {
@@ -105,7 +101,6 @@ const professionalsData: Professional[] = [
     specialty: 'Cloisons & Plâtrerie',
     description: 'Spécialiste en plâtrerie pour des finitions parfaites. Solutions acoustiques et esthétiques pour tous types de projets immobiliers.',
     location: 'Tunis, Tunisie',
-    rating: 4.7,
     projectCount: 32,
     founded: 2010,
     contact: {
@@ -128,7 +123,6 @@ const professionalsData: Professional[] = [
     specialty: 'Électricité bâtiment (tableau, câblage, prises)',
     description: 'Installation électrique complète pour le résidentiel et le tertiaire. Certification aux normes internationales et solutions écoénergétiques.',
     location: 'Tunis, Tunisie',
-    rating: 4.9,
     projectCount: 45,
     founded: 1995,
     contact: {
@@ -153,7 +147,6 @@ const professionalsData: Professional[] = [
     specialty: 'Menuiserie aluminium',
     description: 'Fabricant et installateur de menuiserie aluminium de haute qualité. Solutions sur mesure pour fenêtres, portes, vérandas et façades.',
     location: 'Sfax, Tunisie',
-    rating: 4.6,
     projectCount: 29,
     founded: 2008,
     contact: {
@@ -497,152 +490,6 @@ const ProfessionalsPage: React.FC<ProfessionalsPageProps> = ({ searchMode = fals
       </main>
       
       <Footer />
-    </div>
-  );
-};
-
-const ProfessionalCard: React.FC<{ professional: Professional }> = ({ professional }) => {
-  return (
-    <Card className="overflow-hidden h-full hover:shadow-md transition-shadow group border-gray-100">
-      <div className="h-40 bg-gray-100 relative">
-        {professional.logo ? (
-          <img 
-            src={professional.logo} 
-            alt={professional.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-mineral/10">
-            <Building2 size={48} className="text-mineral/40" />
-          </div>
-        )}
-        
-        <Badge className="absolute top-3 right-3 bg-mineral/80 text-white">
-          {professional.categoryName}
-        </Badge>
-      </div>
-      
-      <CardContent className="p-5">
-        <div className="flex items-start justify-between mb-2">
-          <h3 className="font-semibold text-mineral">
-            <Link to={`/professionnels/${professional.id}`} className="hover:underline">
-              {professional.name}
-            </Link>
-          </h3>
-          
-          {professional.rating && (
-            <Badge variant="outline" className="flex items-center gap-1 ml-2">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <span key={i} className={`text-xs ${i < Math.floor(professional.rating || 0) ? 'text-yellow-500' : 'text-gray-300'}`}>★</span>
-              ))}
-            </Badge>
-          )}
-        </div>
-        
-        <p className="text-sm text-gray-600 mb-3">{professional.specialty}</p>
-        
-        {professional.location && (
-          <div className="flex items-center text-sm text-gray-600 mb-1">
-            <MapPin size={14} className="mr-1 text-mineral" />
-            <span>{professional.location}</span>
-          </div>
-        )}
-        
-        {professional.contact?.phone && (
-          <div className="flex items-center text-sm text-gray-600 mb-1">
-            <Phone size={14} className="mr-1 text-mineral" />
-            <a href={`tel:${professional.contact.phone}`} className="hover:text-mineral transition-colors">
-              {professional.contact.phone}
-            </a>
-          </div>
-        )}
-        
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <Link to={`/professionnels/${professional.id}`}>
-            <Button variant="outline" size="sm" className="w-full hover:bg-mineral hover:text-white transition-colors">
-              Voir le profil
-            </Button>
-          </Link>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
-const ProfessionalListItem: React.FC<{ professional: Professional }> = ({ professional }) => {
-  return (
-    <div className="flex flex-col md:flex-row gap-4 p-4 bg-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
-      <div className="w-full md:w-20 h-20">
-        {professional.logo ? (
-          <img 
-            src={professional.logo} 
-            alt={professional.name}
-            className="w-full h-full object-cover rounded-md" 
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-mineral/10 rounded-md">
-            <Building2 size={24} className="text-mineral/40" />
-          </div>
-        )}
-      </div>
-      
-      <div className="flex-1">
-        <div className="flex flex-wrap items-start justify-between mb-1">
-          <h3 className="font-semibold text-mineral">
-            <Link to={`/professionnels/${professional.id}`} className="hover:underline">
-              {professional.name}
-            </Link>
-          </h3>
-          
-          <Badge className="bg-mineral/80 text-white text-xs">
-            {professional.categoryName}
-          </Badge>
-        </div>
-        
-        <p className="text-sm text-gray-600 mb-2">{professional.specialty}</p>
-        
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
-          {professional.location && (
-            <div className="flex items-center">
-              <MapPin size={14} className="mr-1 text-mineral" />
-              <span>{professional.location}</span>
-            </div>
-          )}
-          
-          {professional.contact?.phone && (
-            <div className="flex items-center">
-              <Phone size={14} className="mr-1 text-mineral" />
-              <a href={`tel:${professional.contact.phone}`} className="hover:text-mineral transition-colors">
-                {professional.contact.phone}
-              </a>
-            </div>
-          )}
-          
-          {professional.contact?.email && (
-            <div className="flex items-center">
-              <Mail size={14} className="mr-1 text-mineral" />
-              <a href={`mailto:${professional.contact.email}`} className="hover:text-mineral transition-colors">
-                {professional.contact.email}
-              </a>
-            </div>
-          )}
-        </div>
-      </div>
-      
-      <div className="flex items-center md:items-end justify-end md:flex-col gap-2 mt-4 md:mt-0">
-        {professional.rating && (
-          <div className="flex items-center gap-1">
-            <Star size={16} className="text-yellow-500 fill-yellow-500" />
-            <span className="text-sm font-medium">{professional.rating}</span>
-          </div>
-        )}
-        
-        <Link to={`/professionnels/${professional.id}`}>
-          <Button size="sm" className="whitespace-nowrap">
-            Voir profil
-          </Button>
-        </Link>
-      </div>
     </div>
   );
 };
